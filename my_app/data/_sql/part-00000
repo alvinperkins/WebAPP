@@ -1,0 +1,493 @@
+private[sql] object Dataset {,/Dataset.scala
+class Dataset[T] private[sql](,/Dataset.scala
+case class DatasetHolder[T] private[sql](private val ds: Dataset[T]) {,/DatasetHolder.scala
+class DataFrameReader private[sql](sparkSession: SparkSession) extends Logging {,/DataFrameReader.scala
+class SQLContext private[sql](val sparkSession: SparkSession),/SQLContext.scala
+class RuntimeConfig private[sql](sqlConf: SQLConf = new SQLConf) {,/RuntimeConfig.scala
+class UDFRegistration private[sql] (functionRegistry: FunctionRegistry) extends Logging {,/UDFRegistration.scala
+private[sql] object Column {,/Column.scala
+class TypedColumn[-T, U](,/Column.scala
+class Column(val expr: Expression) extends Logging {,/Column.scala
+class ColumnName(name: String) extends Column(name) {,/Column.scala
+class KeyValueGroupedDataset[K, V] private[sql](,/KeyValueGroupedDataset.scala
+class ExperimentalMethods private[sql]() {,/ExperimentalMethods.scala
+class SparkSession private(,/SparkSession.scala
+class RelationalGroupedDataset protected[sql](,/RelationalGroupedDataset.scala
+private[sql] object RelationalGroupedDataset {,/RelationalGroupedDataset.scala
+class Database(,/catalog/interface.scala
+class Table(,/catalog/interface.scala
+class Column(,/catalog/interface.scala
+class Function(,/catalog/interface.scala
+case class InputAdapter(child: SparkPlan) extends UnaryExecNode with CodegenSupport {,/execution/WholeStageCodegenExec.scala
+case class WholeStageCodegenExec(child: SparkPlan) extends UnaryExecNode with CodegenSupport {,/execution/WholeStageCodegenExec.scala
+case class CollapseCodegenStages(conf: SQLConf) extends Rule[SparkPlan] {,/execution/WholeStageCodegenExec.scala
+case class ExternalRDD[T](,/execution/ExistingRDD.scala
+case class ExternalRDDScanExec[T](,/execution/ExistingRDD.scala
+case class LogicalRDD(,/execution/ExistingRDD.scala
+case class RDDScanExec(,/execution/ExistingRDD.scala
+case class DeserializeToObjectExec(,/execution/objects.scala
+case class SerializeFromObjectExec(,/execution/objects.scala
+case class MapPartitionsExec(,/execution/objects.scala
+case class MapElementsExec(,/execution/objects.scala
+case class AppendColumnsExec(,/execution/objects.scala
+case class AppendColumnsWithObjectExec(,/execution/objects.scala
+case class MapGroupsExec(,/execution/objects.scala
+case class FlatMapGroupsInRExec(,/execution/objects.scala
+case class CoGroupExec(,/execution/objects.scala
+private final class ShuffledRowRDDPartition(,/execution/ShuffledRowRDD.scala
+private class PartitionIdPassthrough(override val numPartitions: Int) extends Partitioner {,/execution/ShuffledRowRDD.scala
+class CoalescedPartitioner(val parent: Partitioner, val partitionStartIndices: Array[Int]),/execution/ShuffledRowRDD.scala
+class ShuffledRowRDD(,/execution/ShuffledRowRDD.scala
+case class OptimizeMetadataOnlyQuery(,/execution/OptimizeMetadataOnlyQuery.scala
+private final class RowIteratorToScala(val rowIter: RowIterator) extends Iterator[InternalRow] {,/execution/RowIterator.scala
+private final class RowIteratorFromScala(scalaIter: Iterator[InternalRow]) extends RowIterator {,/execution/RowIterator.scala
+case class SortExec(,/execution/SortExec.scala
+case class ScalarSubquery(,/execution/subquery.scala
+case class InSubquery(,/execution/subquery.scala
+case class PlanSubqueries(sparkSession: SparkSession) extends Rule[SparkPlan] {,/execution/subquery.scala
+case class ReuseSubquery(conf: SQLConf) extends Rule[SparkPlan] {,/execution/subquery.scala
+case class ProjectExec(projectList: Seq[NamedExpression], child: SparkPlan),/execution/basicPhysicalOperators.scala
+case class FilterExec(condition: Expression, child: SparkPlan),/execution/basicPhysicalOperators.scala
+case class SampleExec(,/execution/basicPhysicalOperators.scala
+case class RangeExec(range: org.apache.spark.sql.catalyst.plans.logical.Range),/execution/basicPhysicalOperators.scala
+case class UnionExec(children: Seq[SparkPlan]) extends SparkPlan {,/execution/basicPhysicalOperators.scala
+case class CoalesceExec(numPartitions: Int, child: SparkPlan) extends UnaryExecNode {,/execution/basicPhysicalOperators.scala
+case class OutputFakerExec(output: Seq[Attribute], child: SparkPlan) extends SparkPlan {,/execution/basicPhysicalOperators.scala
+case class SubqueryExec(name: String, child: SparkPlan) extends UnaryExecNode {,/execution/basicPhysicalOperators.scala
+case class CachedData(plan: LogicalPlan, cachedRepresentation: InMemoryRelation),/execution/CacheManager.scala
+class CacheManager extends Logging {,/execution/CacheManager.scala
+private[execution] sealed case class LazyIterator(func: () => TraversableOnce[InternalRow]),/execution/GenerateExec.scala
+case class GenerateExec(,/execution/GenerateExec.scala
+class SparkSqlParser(conf: SQLConf) extends AbstractSqlParser {,/execution/SparkSqlParser.scala
+class SparkSqlAstBuilder(conf: SQLConf) extends AstBuilder {,/execution/SparkSqlParser.scala
+case class CollectLimitExec(limit: Int, child: SparkPlan) extends UnaryExecNode {,/execution/limit.scala
+case class LocalLimitExec(limit: Int, child: SparkPlan) extends BaseLimitExec {,/execution/limit.scala
+case class GlobalLimitExec(limit: Int, child: SparkPlan) extends BaseLimitExec {,/execution/limit.scala
+case class TakeOrderedAndProjectExec(,/execution/limit.scala
+class GroupedIterator private(,/execution/GroupedIterator.scala
+class CoGroupedIterator(,/execution/CoGroupedIterator.scala
+case class PlanLater(plan: LogicalPlan) extends LeafExecNode {,/execution/SparkStrategies.scala
+case class RowDataSourceScanExec(,/execution/DataSourceScanExec.scala
+case class FileSourceScanExec(,/execution/DataSourceScanExec.scala
+class QueryExecutionException(message: String) extends Exception(message),/execution/QueryExecutionException.scala
+class SparkPlanInfo(,/execution/SparkPlanInfo.scala
+private[execution] object SparkPlanInfo {,/execution/SparkPlanInfo.scala
+class QueryExecution(val sparkSession: SparkSession, val logical: LogicalPlan) {,/execution/QueryExecution.scala
+class SparkOptimizer(,/execution/SparkOptimizer.scala
+class SparkPlanner(,/execution/SparkPlanner.scala
+case class LocalTableScanExec(,/execution/LocalTableScanExec.scala
+class UnsafeRowSerializer(,/execution/UnsafeRowSerializer.scala
+private class UnsafeRowSerializerInstance(,/execution/UnsafeRowSerializer.scala
+case class ExpandExec(,/execution/ExpandExec.scala
+class SQLMetric(val metricType: String, initValue: Long = 0L) extends AccumulatorV2[Long, Long] {,/execution/metric/SQLMetrics.scala
+class SQLMetricInfo(,/execution/metric/SQLMetricInfo.scala
+case class AnalyzeTableCommand(,/execution/command/AnalyzeTableCommand.scala
+case class CreateDatabaseCommand(,/execution/command/ddl.scala
+case class DropDatabaseCommand(,/execution/command/ddl.scala
+case class AlterDatabasePropertiesCommand(,/execution/command/ddl.scala
+case class DescribeDatabaseCommand(,/execution/command/ddl.scala
+case class DropTableCommand(,/execution/command/ddl.scala
+case class AlterTableSetPropertiesCommand(,/execution/command/ddl.scala
+case class AlterTableUnsetPropertiesCommand(,/execution/command/ddl.scala
+case class AlterTableSerDePropertiesCommand(,/execution/command/ddl.scala
+case class AlterTableAddPartitionCommand(,/execution/command/ddl.scala
+case class AlterTableRenamePartitionCommand(,/execution/command/ddl.scala
+case class AlterTableDropPartitionCommand(,/execution/command/ddl.scala
+case class PartitionStatistics(numFiles: Int, totalSize: Long),/execution/command/ddl.scala
+case class AlterTableRecoverPartitionsCommand(,/execution/command/ddl.scala
+case class AlterTableSetLocationCommand(,/execution/command/ddl.scala
+case class AnalyzeColumnCommand(,/execution/command/AnalyzeColumnCommand.scala
+case class ShowDatabasesCommand(databasePattern: Option[String]) extends RunnableCommand {,/execution/command/databases.scala
+case class SetDatabaseCommand(databaseName: String) extends RunnableCommand {,/execution/command/databases.scala
+case class CreateTableLikeCommand(,/execution/command/tables.scala
+case class CreateTableCommand(table: CatalogTable, ifNotExists: Boolean) extends RunnableCommand {,/execution/command/tables.scala
+case class AlterTableRenameCommand(,/execution/command/tables.scala
+case class LoadDataCommand(,/execution/command/tables.scala
+case class TruncateTableCommand(,/execution/command/tables.scala
+case class DescribeTableCommand(,/execution/command/tables.scala
+case class ShowTablesCommand(,/execution/command/tables.scala
+case class ShowTablePropertiesCommand(table: TableIdentifier, propertyKey: Option[String]),/execution/command/tables.scala
+case class ShowColumnsCommand(,/execution/command/tables.scala
+case class ShowPartitionsCommand(,/execution/command/tables.scala
+case class ShowCreateTableCommand(table: TableIdentifier) extends RunnableCommand {,/execution/command/tables.scala
+case class ExecutedCommandExec(cmd: RunnableCommand) extends SparkPlan {,/execution/command/commands.scala
+case class ExplainCommand(,/execution/command/commands.scala
+case class StreamingExplainCommand(,/execution/command/commands.scala
+case class CacheTableCommand(,/execution/command/cache.scala
+case class UncacheTableCommand(,/execution/command/cache.scala
+case object ClearCacheCommand extends RunnableCommand {,/execution/command/cache.scala
+case class CreateFunctionCommand(,/execution/command/functions.scala
+case class DescribeFunctionCommand(,/execution/command/functions.scala
+case class DropFunctionCommand(,/execution/command/functions.scala
+case class ShowFunctionsCommand(,/execution/command/functions.scala
+case class CreateViewCommand(,/execution/command/views.scala
+case class AlterViewAsCommand(,/execution/command/views.scala
+case class CreateDataSourceTableCommand(table: CatalogTable, ignoreIfExists: Boolean),/execution/command/createDataSourceTables.scala
+case class CreateDataSourceTableAsSelectCommand(,/execution/command/createDataSourceTables.scala
+case class SetCommand(kv: Option[(String, Option[String])]) extends RunnableCommand with Logging {,/execution/command/SetCommand.scala
+case object ResetCommand extends RunnableCommand with Logging {,/execution/command/SetCommand.scala
+case class AddJarCommand(path: String) extends RunnableCommand {,/execution/command/resources.scala
+case class AddFileCommand(path: String) extends RunnableCommand {,/execution/command/resources.scala
+case class ListFilesCommand(files: Seq[String] = Seq.empty[String]) extends RunnableCommand {,/execution/command/resources.scala
+case class ListJarsCommand(jars: Seq[String] = Seq.empty[String]) extends RunnableCommand {,/execution/command/resources.scala
+case class ReusedExchangeExec(override val output: Seq[Attribute], child: Exchange),/execution/exchange/Exchange.scala
+case class ReuseExchange(conf: SQLConf) extends Rule[SparkPlan] {,/execution/exchange/Exchange.scala
+class ExchangeCoordinator(,/execution/exchange/ExchangeCoordinator.scala
+case class ShuffleExchange(,/execution/exchange/ShuffleExchange.scala
+case class EnsureRequirements(conf: SQLConf) extends Rule[SparkPlan] {,/execution/exchange/EnsureRequirements.scala
+case class BroadcastExchangeExec(,/execution/exchange/BroadcastExchangeExec.scala
+class VectorizedHashMapGenerator(,/execution/aggregate/VectorizedHashMapGenerator.scala
+case class HashAggregateExec(,/execution/aggregate/HashAggregateExec.scala
+class SortBasedAggregationIterator(,/execution/aggregate/SortBasedAggregationIterator.scala
+class RowBasedHashMapGenerator(,/execution/aggregate/RowBasedHashMapGenerator.scala
+case class TypedAggregateExpression(,/execution/aggregate/TypedAggregateExpression.scala
+case class SortAggregateExec(,/execution/aggregate/SortAggregateExec.scala
+private[aggregate] class MutableAggregationBufferImpl(,/execution/aggregate/udaf.scala
+private[aggregate] class InputAggregationBuffer(,/execution/aggregate/udaf.scala
+case class ScalaUDAF(,/execution/aggregate/udaf.scala
+class TypedSumDouble[IN](val f: IN => Double) extends Aggregator[IN, Double, Double] {,/execution/aggregate/typedaggregators.scala
+class TypedSumLong[IN](val f: IN => Long) extends Aggregator[IN, Long, Long] {,/execution/aggregate/typedaggregators.scala
+class TypedCount[IN](val f: IN => Any) extends Aggregator[IN, Long, Long] {,/execution/aggregate/typedaggregators.scala
+class TypedAverage[IN](val f: IN => Double) extends Aggregator[IN, (Double, Long), Double] {,/execution/aggregate/typedaggregators.scala
+class TungstenAggregationIterator(,/execution/aggregate/TungstenAggregationIterator.scala
+case class LongOffset(offset: Long) extends Offset {,/execution/streaming/LongOffset.scala
+case class StreamingRelation(dataSource: DataSource, sourceName: String, output: Seq[Attribute]),/execution/streaming/StreamingRelation.scala
+case class StreamingExecutionRelation(source: Source, output: Seq[Attribute]) extends LeafNode {,/execution/streaming/StreamingRelation.scala
+case class StreamingRelationExec(sourceName: String, output: Seq[Attribute]) extends LeafExecNode {,/execution/streaming/StreamingRelation.scala
+class StreamingQueryListenerBus(sparkListenerBus: LiveListenerBus),/execution/streaming/StreamingQueryListenerBus.scala
+case class OffsetSeq(offsets: Seq[Option[Offset]], metadata: Option[OffsetSeqMetadata] = None) {,/execution/streaming/OffsetSeq.scala
+case class OffsetSeqMetadata(var batchWatermarkMs: Long = 0, var batchTimestampMs: Long = 0) {,/execution/streaming/OffsetSeq.scala
+class StreamProgress(,/execution/streaming/StreamProgress.scala
+class MetadataLogFileIndex(sparkSession: SparkSession, path: Path),/execution/streaming/MetadataLogFileIndex.scala
+class StreamExecution(,/execution/streaming/StreamExecution.scala
+class FileStreamSourceLog(,/execution/streaming/FileStreamSourceLog.scala
+class FileStreamOptions(parameters: CaseInsensitiveMap) extends Logging {,/execution/streaming/FileStreamOptions.scala
+case class MemoryStream[A : Encoder](id: Int, sqlContext: SQLContext),/execution/streaming/memory.scala
+class MemorySink(val schema: StructType, outputMode: OutputMode) extends Sink with Logging {,/execution/streaming/memory.scala
+case class MemoryPlan(sink: MemorySink, output: Seq[Attribute]) extends LeafNode {,/execution/streaming/memory.scala
+case class SinkFileStatus(,/execution/streaming/FileStreamSinkLog.scala
+class FileStreamSinkLog(,/execution/streaming/FileStreamSinkLog.scala
+class ManifestFileCommitProtocol(jobId: String, path: String),/execution/streaming/ManifestFileCommitProtocol.scala
+class ConsoleSink(options: Map[String, String]) extends Sink with Logging {,/execution/streaming/console.scala
+class ConsoleSinkProvider extends StreamSinkProvider with DataSourceRegister {,/execution/streaming/console.scala
+class OffsetSeqLog(sparkSession: SparkSession, path: String),/execution/streaming/OffsetSeqLog.scala
+case class ProcessingTimeExecutor(processingTime: ProcessingTime, clock: Clock = new SystemClock()),/execution/streaming/TriggerExecutor.scala
+class FileStreamSink(,/execution/streaming/FileStreamSink.scala
+case class StreamMetadata(id: String) {,/execution/streaming/StreamMetadata.scala
+class IncrementalExecution(,/execution/streaming/IncrementalExecution.scala
+case class FileStreamSourceOffset(logOffset: Long) extends Offset {,/execution/streaming/FileStreamSourceOffset.scala
+case class OperatorStateId(,/execution/streaming/StatefulAggregate.scala
+case class StateStoreRestoreExec(,/execution/streaming/StatefulAggregate.scala
+case class StateStoreSaveExec(,/execution/streaming/StatefulAggregate.scala
+class FileStreamSource(,/execution/streaming/FileStreamSource.scala
+class StreamingQueryWrapper(@transient private val _streamingQuery: StreamExecution),/execution/streaming/StreamingQueryWrapper.scala
+class ForeachSink[T : Encoder](writer: ForeachWriter[T]) extends Sink with Serializable {,/execution/streaming/ForeachSink.scala
+class HDFSMetadataLog[T <: AnyRef : ClassTag](sparkSession: SparkSession, path: String),/execution/streaming/HDFSMetadataLog.scala
+case class EventTimeStats(var max: Long, var min: Long, var sum: Long, var count: Long) {,/execution/streaming/EventTimeWatermarkExec.scala
+class EventTimeStatsAccum(protected var currentStats: EventTimeStats = EventTimeStats.zero),/execution/streaming/EventTimeWatermarkExec.scala
+case class EventTimeWatermarkExec(,/execution/streaming/EventTimeWatermarkExec.scala
+class MetricsReporter(,/execution/streaming/MetricsReporter.scala
+case class SerializedOffset(override val json: String) extends Offset,/execution/streaming/Offset.scala
+class TextSocketSource(host: String, port: Int, includeTimestamp: Boolean, sqlContext: SQLContext),/execution/streaming/socket.scala
+class TextSocketSourceProvider extends StreamSourceProvider with DataSourceRegister with Logging {,/execution/streaming/socket.scala
+private[streaming] class StateStoreConf(@transient private val conf: SQLConf) extends Serializable {,/execution/streaming/state/StateStoreConf.scala
+private[streaming] object StateStoreConf {,/execution/streaming/state/StateStoreConf.scala
+case class StateStoreId(checkpointLocation: String, operatorId: Long, partitionId: Int),/execution/streaming/state/StateStore.scala
+case class ValueAdded(key: UnsafeRow, value: UnsafeRow) extends StoreUpdate,/execution/streaming/state/StateStore.scala
+case class ValueUpdated(key: UnsafeRow, value: UnsafeRow) extends StoreUpdate,/execution/streaming/state/StateStore.scala
+case class ValueRemoved(key: UnsafeRow, value: UnsafeRow) extends StoreUpdate,/execution/streaming/state/StateStore.scala
+class StateStoreRDD[T: ClassTag, U: ClassTag](,/execution/streaming/state/StateStoreRDD.scala
+private[state] class HDFSBackedStateStoreProvider(,/execution/streaming/state/HDFSBackedStateStoreProvider.scala
+private sealed trait StateStoreCoordinatorMessage extends Serializable,/execution/streaming/state/StateStoreCoordinator.scala
+private case class ReportActiveInstance(storeId: StateStoreId, host: String, executorId: String),/execution/streaming/state/StateStoreCoordinator.scala
+private case class VerifyIfInstanceActive(storeId: StateStoreId, executorId: String),/execution/streaming/state/StateStoreCoordinator.scala
+private case class GetLocation(storeId: StateStoreId),/execution/streaming/state/StateStoreCoordinator.scala
+private case class DeactivateInstances(checkpointLocation: String),/execution/streaming/state/StateStoreCoordinator.scala
+private object StopCoordinator,/execution/streaming/state/StateStoreCoordinator.scala
+class StateStoreCoordinatorRef private(rpcEndpointRef: RpcEndpointRef) {,/execution/streaming/state/StateStoreCoordinator.scala
+private class StateStoreCoordinator(override val rpcEnv: RpcEnv),/execution/streaming/state/StateStoreCoordinator.scala
+class ResolveDataSource(sparkSession: SparkSession) extends Rule[LogicalPlan] {,/execution/datasources/rules.scala
+case class AnalyzeCreateTable(sparkSession: SparkSession) extends Rule[LogicalPlan] {,/execution/datasources/rules.scala
+case class PreprocessTableInsertion(conf: SQLConf) extends Rule[LogicalPlan] {,/execution/datasources/rules.scala
+case class PreWriteCheck(conf: SQLConf, catalog: SessionCatalog),/execution/datasources/rules.scala
+class SQLHadoopMapReduceCommitProtocol(jobId: String, path: String, isAppend: Boolean),/execution/datasources/SQLHadoopMapReduceCommitProtocol.scala
+case class LogicalRelation(,/execution/datasources/LogicalRelation.scala
+case class InsertIntoHadoopFsRelationCommand(,/execution/datasources/InsertIntoHadoopFsRelationCommand.scala
+class HadoopFileLinesReader(,/execution/datasources/HadoopFileLinesReader.scala
+private class SharedInMemoryCache(maxSizeInBytes: Long) extends Logging {,/execution/datasources/FileStatusCache.scala
+case class CreateTable(,/execution/datasources/ddl.scala
+case class CreateTempViewUsing(,/execution/datasources/ddl.scala
+case class RefreshTable(tableIdent: TableIdentifier),/execution/datasources/ddl.scala
+case class RefreshResource(path: String),/execution/datasources/ddl.scala
+case class PartitionedFile(,/execution/datasources/FileScanRDD.scala
+case class FilePartition(index: Int, files: Seq[PartitionedFile]) extends RDDPartition,/execution/datasources/FileScanRDD.scala
+class FileScanRDD(,/execution/datasources/FileScanRDD.scala
+case class HadoopFsRelation(,/execution/datasources/HadoopFsRelation.scala
+class CatalogFileIndex(,/execution/datasources/CatalogFileIndex.scala
+private class PrunedInMemoryFileIndex(,/execution/datasources/CatalogFileIndex.scala
+private[sql] object PruneFileSourcePartitions extends Rule[LogicalPlan] {,/execution/datasources/PruneFileSourcePartitions.scala
+case class InsertIntoDataSourceCommand(,/execution/datasources/InsertIntoDataSourceCommand.scala
+case class PartitionDirectory(values: InternalRow, files: Seq[FileStatus]),/execution/datasources/FileIndex.scala
+class RecordReaderIterator[T](,/execution/datasources/RecordReaderIterator.scala
+case class PartitionPath(values: InternalRow, path: Path),/execution/datasources/PartitioningUtils.scala
+case class PartitionSpec(,/execution/datasources/PartitioningUtils.scala
+case class DataSourceAnalysis(conf: CatalystConf) extends Rule[LogicalPlan] {,/execution/datasources/DataSourceStrategy.scala
+class FindDataSourceTable(sparkSession: SparkSession) extends Rule[LogicalPlan] {,/execution/datasources/DataSourceStrategy.scala
+case class DataSource(,/execution/datasources/DataSource.scala
+class InMemoryFileIndex(,/execution/datasources/InMemoryFileIndex.scala
+class TextFileFormat extends TextBasedFileFormat with DataSourceRegister {,/execution/datasources/text/TextFileFormat.scala
+class TextOutputWriter(,/execution/datasources/text/TextFileFormat.scala
+private[csv] class CsvReader(params: CSVOptions) {,/execution/datasources/csv/CSVParser.scala
+private[csv] class LineCsvWriter(params: CSVOptions, headers: Seq[String]) extends Logging {,/execution/datasources/csv/CSVParser.scala
+private[csv] class CSVOutputWriterFactory(params: CSVOptions) extends OutputWriterFactory {,/execution/datasources/csv/CSVRelation.scala
+private[csv] class CsvOutputWriter(,/execution/datasources/csv/CSVRelation.scala
+private[csv] object CSVInferSchema {,/execution/datasources/csv/CSVInferSchema.scala
+private[csv] object CSVTypeCast {,/execution/datasources/csv/CSVInferSchema.scala
+private[csv] class CSVOptions(@transient private val parameters: CaseInsensitiveMap),/execution/datasources/csv/CSVOptions.scala
+class CSVFileFormat extends TextBasedFileFormat with DataSourceRegister {,/execution/datasources/csv/CSVFileFormat.scala
+private[sql] case class JDBCPartitioningInfo(,/execution/datasources/jdbc/JDBCRelation.scala
+private[sql] object JDBCRelation extends Logging {,/execution/datasources/jdbc/JDBCRelation.scala
+private[sql] case class JDBCRelation(,/execution/datasources/jdbc/JDBCRelation.scala
+class JDBCOptions(,/execution/datasources/jdbc/JDBCOptions.scala
+case class JDBCPartition(whereClause: String, idx: Int) extends Partition {,/execution/datasources/jdbc/JDBCRDD.scala
+private[jdbc] class JDBCRDD(,/execution/datasources/jdbc/JDBCRDD.scala
+class DriverWrapper(val wrapped: Driver) extends Driver {,/execution/datasources/jdbc/DriverWrapper.scala
+class JdbcRelationProvider extends CreatableRelationProvider,/execution/datasources/jdbc/JdbcRelationProvider.scala
+class JsonFileFormat extends TextBasedFileFormat with DataSourceRegister {,/execution/datasources/json/JsonFileFormat.scala
+private[json] class JsonOutputWriter(,/execution/datasources/json/JsonFileFormat.scala
+private[sql] object InferSchema {,/execution/datasources/json/InferSchema.scala
+private[parquet] class ParquetRecordMaterializer(,/execution/datasources/parquet/ParquetRecordMaterializer.scala
+private[parquet] trait ParentContainerUpdater {,/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] object NoopUpdater extends ParentContainerUpdater,/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] trait HasParentContainerUpdater {,/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] abstract class ParquetGroupConverter(val updater: ParentContainerUpdater),/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] class ParquetPrimitiveConverter(val updater: ParentContainerUpdater),/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] class ParquetRowConverter(,/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] object ParquetRowConverter {,/execution/datasources/parquet/ParquetRowConverter.scala
+private[parquet] class ParquetSchemaConverter(,/execution/datasources/parquet/ParquetSchemaConverter.scala
+private[parquet] object ParquetSchemaConverter {,/execution/datasources/parquet/ParquetSchemaConverter.scala
+private[parquet] class ParquetReadSupport extends ReadSupport[UnsafeRow] with Logging {,/execution/datasources/parquet/ParquetReadSupport.scala
+private[parquet] object ParquetReadSupport {,/execution/datasources/parquet/ParquetReadSupport.scala
+private[parquet] class ParquetOptions(,/execution/datasources/parquet/ParquetOptions.scala
+private[parquet] class ParquetWriteSupport extends WriteSupport[InternalRow] with Logging {,/execution/datasources/parquet/ParquetWriteSupport.scala
+private[parquet] object ParquetWriteSupport {,/execution/datasources/parquet/ParquetWriteSupport.scala
+class ParquetFileFormat,/execution/datasources/parquet/ParquetFileFormat.scala
+private[parquet] object ParquetFilters {,/execution/datasources/parquet/ParquetFilters.scala
+private[parquet] class ParquetOutputWriter(path: String, context: TaskAttemptContext),/execution/datasources/parquet/ParquetOutputWriter.scala
+case class SortMergeJoinExec(,/execution/joins/SortMergeJoinExec.scala
+private[joins] class SortMergeJoinScanner(,/execution/joins/SortMergeJoinExec.scala
+private class LeftOuterIterator(,/execution/joins/SortMergeJoinExec.scala
+private class RightOuterIterator(,/execution/joins/SortMergeJoinExec.scala
+private abstract class OneSideOuterIterator(,/execution/joins/SortMergeJoinExec.scala
+private class SortMergeFullOuterJoinScanner(,/execution/joins/SortMergeJoinExec.scala
+private class FullOuterIterator(,/execution/joins/SortMergeJoinExec.scala
+case class ShuffledHashJoinExec(,/execution/joins/ShuffledHashJoinExec.scala
+case class BroadcastHashJoinExec(,/execution/joins/BroadcastHashJoinExec.scala
+private[execution] sealed trait HashedRelation extends KnownSizeEstimation {,/execution/joins/HashedRelation.scala
+private[execution] object HashedRelation {,/execution/joins/HashedRelation.scala
+private[joins] class UnsafeHashedRelation(,/execution/joins/HashedRelation.scala
+private[joins] object UnsafeHashedRelation {,/execution/joins/HashedRelation.scala
+private[execution] final class LongToUnsafeRowMap(val mm: TaskMemoryManager, capacity: Int),/execution/joins/HashedRelation.scala
+private[joins] class LongHashedRelation(,/execution/joins/HashedRelation.scala
+private[joins] object LongHashedRelation {,/execution/joins/HashedRelation.scala
+private[execution] case class HashedRelationBroadcastMode(key: Seq[Expression]),/execution/joins/HashedRelation.scala
+class UnsafeCartesianRDD(left : RDD[UnsafeRow], right : RDD[UnsafeRow], numFieldsOfRight: Int),/execution/joins/CartesianProductExec.scala
+case class CartesianProductExec(,/execution/joins/CartesianProductExec.scala
+case class BroadcastNestedLoopJoinExec(,/execution/joins/BroadcastNestedLoopJoinExec.scala
+case class WindowExec(,/execution/window/WindowExec.scala
+private[window] abstract class RowBuffer {,/execution/window/RowBuffer.scala
+private[window] class ArrayRowBuffer(buffer: ArrayBuffer[UnsafeRow]) extends RowBuffer {,/execution/window/RowBuffer.scala
+private[window] class ExternalRowBuffer(sorter: UnsafeExternalSorter, numFields: Int),/execution/window/RowBuffer.scala
+private[window] abstract class BoundOrdering {,/execution/window/BoundOrdering.scala
+private[window] final case class RowBoundOrdering(offset: Int) extends BoundOrdering {,/execution/window/BoundOrdering.scala
+private[window] final case class RangeBoundOrdering(,/execution/window/BoundOrdering.scala
+private[window] object AggregateProcessor {,/execution/window/AggregateProcessor.scala
+private[window] final class AggregateProcessor(,/execution/window/AggregateProcessor.scala
+private[window] abstract class WindowFunctionFrame {,/execution/window/WindowFunctionFrame.scala
+private[window] final class OffsetWindowFunctionFrame(,/execution/window/WindowFunctionFrame.scala
+private[window] final class SlidingWindowFunctionFrame(,/execution/window/WindowFunctionFrame.scala
+private[window] final class UnboundedWindowFunctionFrame(,/execution/window/WindowFunctionFrame.scala
+private[window] final class UnboundedPrecedingWindowFunctionFrame(,/execution/window/WindowFunctionFrame.scala
+private[window] final class UnboundedFollowingWindowFunctionFrame(,/execution/window/WindowFunctionFrame.scala
+case class BatchEvalPythonExec(udfs: Seq[PythonUDF], output: Seq[Attribute], child: SparkPlan),/execution/python/BatchEvalPythonExec.scala
+private[python] trait RowQueue {,/execution/python/RowQueue.scala
+private[python] abstract class InMemoryRowQueue(val page: MemoryBlock, numFields: Int),/execution/python/RowQueue.scala
+private[python] case class DiskRowQueue(file: File, fields: Int) extends RowQueue {,/execution/python/RowQueue.scala
+private[python] case class HybridRowQueue(,/execution/python/RowQueue.scala
+case class UserDefinedPythonFunction(,/execution/python/UserDefinedPythonFunction.scala
+case class PythonUDF(,/execution/python/PythonUDF.scala
+case class SparkPlanGraph(,/execution/ui/SparkPlanGraph.scala
+private[ui] class SparkPlanGraphNode(,/execution/ui/SparkPlanGraph.scala
+private[ui] class SparkPlanGraphCluster(,/execution/ui/SparkPlanGraph.scala
+private[ui] case class SparkPlanGraphEdge(fromId: Long, toId: Long) {,/execution/ui/SparkPlanGraph.scala
+case class SparkListenerSQLExecutionStart(,/execution/ui/SQLListener.scala
+case class SparkListenerSQLExecutionEnd(executionId: Long, time: Long),/execution/ui/SQLListener.scala
+case class SparkListenerDriverAccumUpdates(,/execution/ui/SQLListener.scala
+private class LongLongTupleConverter extends Converter[(Object, Object), (Long, Long)] {,/execution/ui/SQLListener.scala
+class SQLHistoryListenerFactory extends SparkHistoryListenerFactory {,/execution/ui/SQLListener.scala
+class SQLListener(conf: SparkConf) extends SparkListener with Logging {,/execution/ui/SQLListener.scala
+class SQLHistoryListener(conf: SparkConf, sparkUI: SparkUI),/execution/ui/SQLListener.scala
+private[ui] class SQLExecutionUIData(,/execution/ui/SQLListener.scala
+private[ui] case class SQLPlanMetric(,/execution/ui/SQLListener.scala
+private[ui] class SQLStageMetrics(,/execution/ui/SQLListener.scala
+private[ui] class SQLTaskMetrics(,/execution/ui/SQLListener.scala
+class SQLTab(val listener: SQLListener, sparkUI: SparkUI),/execution/ui/SQLTab.scala
+class ExecutionPage(parent: SQLTab) extends WebUIPage("execution") with Logging {,/execution/ui/ExecutionPage.scala
+private[ui] class AllExecutionsPage(parent: SQLTab) extends WebUIPage("") with Logging {,/execution/ui/AllExecutionsPage.scala
+private[ui] abstract class ExecutionTable(,/execution/ui/AllExecutionsPage.scala
+private[ui] class RunningExecutionTable(,/execution/ui/AllExecutionsPage.scala
+private[ui] class CompletedExecutionTable(,/execution/ui/AllExecutionsPage.scala
+private[ui] class FailedExecutionTable(,/execution/ui/AllExecutionsPage.scala
+private[columnar] trait ColumnAccessor {,/execution/columnar/ColumnAccessor.scala
+private[columnar] abstract class BasicColumnAccessor[JvmType](,/execution/columnar/ColumnAccessor.scala
+private[columnar] class NullColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] abstract class NativeColumnAccessor[T <: AtomicType](,/execution/columnar/ColumnAccessor.scala
+private[columnar] class BooleanColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class ByteColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class ShortColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class IntColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class LongColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class FloatColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class DoubleColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class StringColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class BinaryColumnAccessor(buffer: ByteBuffer),/execution/columnar/ColumnAccessor.scala
+private[columnar] class CompactDecimalColumnAccessor(buffer: ByteBuffer, dataType: DecimalType),/execution/columnar/ColumnAccessor.scala
+private[columnar] class DecimalColumnAccessor(buffer: ByteBuffer, dataType: DecimalType),/execution/columnar/ColumnAccessor.scala
+private[columnar] class StructColumnAccessor(buffer: ByteBuffer, dataType: StructType),/execution/columnar/ColumnAccessor.scala
+private[columnar] class ArrayColumnAccessor(buffer: ByteBuffer, dataType: ArrayType),/execution/columnar/ColumnAccessor.scala
+private[columnar] class MapColumnAccessor(buffer: ByteBuffer, dataType: MapType),/execution/columnar/ColumnAccessor.scala
+private[columnar] object ColumnAccessor {,/execution/columnar/ColumnAccessor.scala
+private[columnar],/execution/columnar/InMemoryRelation.scala
+case class CachedBatch(numRows: Int, buffers: Array[Array[Byte]], stats: InternalRow),/execution/columnar/InMemoryRelation.scala
+case class InMemoryRelation(,/execution/columnar/InMemoryRelation.scala
+class MutableUnsafeRow(val writer: UnsafeRowWriter) extends BaseGenericInternalRow {,/execution/columnar/GenerateColumnAccessor.scala
+private[columnar] object ByteBufferHelper {,/execution/columnar/ColumnType.scala
+private[columnar] sealed abstract class ColumnType[JvmType] {,/execution/columnar/ColumnType.scala
+private[columnar] object NULL extends ColumnType[Any] {,/execution/columnar/ColumnType.scala
+private[columnar] abstract class NativeColumnType[T <: AtomicType](,/execution/columnar/ColumnType.scala
+private[columnar] object INT extends NativeColumnType(IntegerType, 4) {,/execution/columnar/ColumnType.scala
+private[columnar] object LONG extends NativeColumnType(LongType, 8) {,/execution/columnar/ColumnType.scala
+private[columnar] object FLOAT extends NativeColumnType(FloatType, 4) {,/execution/columnar/ColumnType.scala
+private[columnar] object DOUBLE extends NativeColumnType(DoubleType, 8) {,/execution/columnar/ColumnType.scala
+private[columnar] object BOOLEAN extends NativeColumnType(BooleanType, 1) {,/execution/columnar/ColumnType.scala
+private[columnar] object BYTE extends NativeColumnType(ByteType, 1) {,/execution/columnar/ColumnType.scala
+private[columnar] object SHORT extends NativeColumnType(ShortType, 2) {,/execution/columnar/ColumnType.scala
+private[columnar] trait DirectCopyColumnType[JvmType] extends ColumnType[JvmType] {,/execution/columnar/ColumnType.scala
+private[columnar] object STRING,/execution/columnar/ColumnType.scala
+private[columnar] case class COMPACT_DECIMAL(precision: Int, scale: Int),/execution/columnar/ColumnType.scala
+private[columnar] object COMPACT_DECIMAL {,/execution/columnar/ColumnType.scala
+private[columnar] sealed abstract class ByteArrayColumnType[JvmType](val defaultSize: Int),/execution/columnar/ColumnType.scala
+private[columnar] object BINARY extends ByteArrayColumnType[Array[Byte]](16) {,/execution/columnar/ColumnType.scala
+private[columnar] case class LARGE_DECIMAL(precision: Int, scale: Int),/execution/columnar/ColumnType.scala
+private[columnar] object LARGE_DECIMAL {,/execution/columnar/ColumnType.scala
+private[columnar] case class STRUCT(dataType: StructType),/execution/columnar/ColumnType.scala
+private[columnar] case class ARRAY(dataType: ArrayType),/execution/columnar/ColumnType.scala
+private[columnar] case class MAP(dataType: MapType),/execution/columnar/ColumnType.scala
+private[columnar] object ColumnType {,/execution/columnar/ColumnType.scala
+private[columnar] trait NullableColumnAccessor extends ColumnAccessor {,/execution/columnar/NullableColumnAccessor.scala
+private[columnar] trait ColumnBuilder {,/execution/columnar/ColumnBuilder.scala
+private[columnar] class BasicColumnBuilder[JvmType](,/execution/columnar/ColumnBuilder.scala
+private[columnar] class NullColumnBuilder,/execution/columnar/ColumnBuilder.scala
+private[columnar] abstract class ComplexColumnBuilder[JvmType](,/execution/columnar/ColumnBuilder.scala
+private[columnar] abstract class NativeColumnBuilder[T <: AtomicType](,/execution/columnar/ColumnBuilder.scala
+private[columnar],/execution/columnar/ColumnBuilder.scala
+class BooleanColumnBuilder extends NativeColumnBuilder(new BooleanColumnStats, BOOLEAN),/execution/columnar/ColumnBuilder.scala
+private[columnar],/execution/columnar/ColumnBuilder.scala
+class ByteColumnBuilder extends NativeColumnBuilder(new ByteColumnStats, BYTE),/execution/columnar/ColumnBuilder.scala
+private[columnar] class ShortColumnBuilder extends NativeColumnBuilder(new ShortColumnStats, SHORT),/execution/columnar/ColumnBuilder.scala
+private[columnar] class IntColumnBuilder extends NativeColumnBuilder(new IntColumnStats, INT),/execution/columnar/ColumnBuilder.scala
+private[columnar] class LongColumnBuilder extends NativeColumnBuilder(new LongColumnStats, LONG),/execution/columnar/ColumnBuilder.scala
+private[columnar] class FloatColumnBuilder extends NativeColumnBuilder(new FloatColumnStats, FLOAT),/execution/columnar/ColumnBuilder.scala
+private[columnar],/execution/columnar/ColumnBuilder.scala
+class DoubleColumnBuilder extends NativeColumnBuilder(new DoubleColumnStats, DOUBLE),/execution/columnar/ColumnBuilder.scala
+private[columnar],/execution/columnar/ColumnBuilder.scala
+class StringColumnBuilder extends NativeColumnBuilder(new StringColumnStats, STRING),/execution/columnar/ColumnBuilder.scala
+private[columnar],/execution/columnar/ColumnBuilder.scala
+class BinaryColumnBuilder extends ComplexColumnBuilder(new BinaryColumnStats, BINARY),/execution/columnar/ColumnBuilder.scala
+private[columnar] class CompactDecimalColumnBuilder(dataType: DecimalType),/execution/columnar/ColumnBuilder.scala
+private[columnar] class DecimalColumnBuilder(dataType: DecimalType),/execution/columnar/ColumnBuilder.scala
+private[columnar] class StructColumnBuilder(dataType: StructType),/execution/columnar/ColumnBuilder.scala
+private[columnar] class ArrayColumnBuilder(dataType: ArrayType),/execution/columnar/ColumnBuilder.scala
+private[columnar] class MapColumnBuilder(dataType: MapType),/execution/columnar/ColumnBuilder.scala
+private[columnar] object ColumnBuilder {,/execution/columnar/ColumnBuilder.scala
+case class InMemoryTableScanExec(,/execution/columnar/InMemoryTableScanExec.scala
+private[columnar] class ColumnStatisticsSchema(a: Attribute) extends Serializable {,/execution/columnar/ColumnStats.scala
+private[columnar] class PartitionStatistics(tableSchema: Seq[Attribute]) extends Serializable {,/execution/columnar/ColumnStats.scala
+private[columnar] sealed trait ColumnStats extends Serializable {,/execution/columnar/ColumnStats.scala
+private[columnar] class NoopColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class BooleanColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class ByteColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class ShortColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class IntColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class LongColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class FloatColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class DoubleColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class StringColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class BinaryColumnStats extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class DecimalColumnStats(precision: Int, scale: Int) extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] class ObjectColumnStats(dataType: DataType) extends ColumnStats {,/execution/columnar/ColumnStats.scala
+private[columnar] trait NullableColumnBuilder extends ColumnBuilder {,/execution/columnar/NullableColumnBuilder.scala
+private[columnar] case object PassThrough extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] case object RunLengthEncoding extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] case object DictionaryEncoding extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] case object BooleanBitSet extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] case object IntDelta extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] case object LongDelta extends CompressionScheme {,/execution/columnar/compression/compressionSchemes.scala
+private[columnar] trait CompressibleColumnAccessor[T <: AtomicType] extends ColumnAccessor {,/execution/columnar/compression/CompressibleColumnAccessor.scala
+private[columnar] trait Encoder[T <: AtomicType] {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] trait Decoder[T <: AtomicType] {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] trait CompressionScheme {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] trait WithCompressionSchemes {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] trait AllCompressionSchemes extends WithCompressionSchemes {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] object CompressionScheme {,/execution/columnar/compression/CompressionScheme.scala
+private[columnar] trait CompressibleColumnBuilder[T <: AtomicType],/execution/columnar/compression/CompressibleColumnBuilder.scala
+private[columnar] object CompressibleColumnBuilder {,/execution/columnar/compression/CompressibleColumnBuilder.scala
+case class MapPartitionsRWrapper(,/execution/r/MapPartitionsRWrapper.scala
+case class HiveSerDe(,/internal/HiveSerDe.scala
+private[sql] class SessionState(sparkSession: SparkSession) {,/internal/SessionState.scala
+private[sql] class SharedState(val sparkContext: SparkContext) extends Logging {,/internal/SharedState.scala
+private[sql] class NonClosableMutableURLClassLoader(parent: ClassLoader),/internal/SharedState.scala
+class VariableSubstitution(conf: SQLConf) {,/internal/VariableSubstitution.scala
+class CatalogImpl(sparkSession: SparkSession) extends Catalog {,/internal/CatalogImpl.scala
+private[sql] object CatalogImpl {,/internal/CatalogImpl.scala
+class ExecutionListenerManager private[sql] () extends Logging {,/util/QueryExecutionListener.scala
+case class ProcessingTime(intervalMs: Long) extends Trigger {,/streaming/Trigger.scala
+class StreamingQueryManager private[sql] (sparkSession: SparkSession) {,/streaming/StreamingQueryManager.scala
+class StreamingQueryException private[sql](,/streaming/StreamingQueryException.scala
+class StreamingQueryStatus protected[sql](,/streaming/StreamingQueryStatus.scala
+class StateOperatorProgress private[sql](,/streaming/progress.scala
+class StreamingQueryProgress private[sql](,/streaming/progress.scala
+class SourceProgress protected[sql](,/streaming/progress.scala
+class SinkProgress protected[sql](,/streaming/progress.scala
+private[sql] class ReduceAggregator[T: Encoder](func: (T, T) => T),/expressions/ReduceAggregator.scala
+class Window private()  // So we can see Window in JavaDoc.,/expressions/Window.scala
+class WindowSpec private[sql](,/expressions/WindowSpec.scala
+case class UserDefinedFunction protected[sql] (,/expressions/UserDefinedFunction.scala
+case class EqualTo(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class EqualNullSafe(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class GreaterThan(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class GreaterThanOrEqual(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class LessThan(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class LessThanOrEqual(attribute: String, value: Any) extends Filter {,/sources/filters.scala
+case class In(attribute: String, values: Array[Any]) extends Filter {,/sources/filters.scala
+case class IsNull(attribute: String) extends Filter {,/sources/filters.scala
+case class IsNotNull(attribute: String) extends Filter {,/sources/filters.scala
+case class And(left: Filter, right: Filter) extends Filter {,/sources/filters.scala
+case class Or(left: Filter, right: Filter) extends Filter {,/sources/filters.scala
+case class Not(child: Filter) extends Filter {,/sources/filters.scala
+case class StringStartsWith(attribute: String, value: String) extends Filter {,/sources/filters.scala
+case class StringEndsWith(attribute: String, value: String) extends Filter {,/sources/filters.scala
+case class StringContains(attribute: String, value: String) extends Filter {,/sources/filters.scala
+private[sql] class ExamplePoint(val x: Double, val y: Double) extends Serializable {,/test/ExamplePointUDT.scala
+private[sql] class ExamplePointUDT extends UserDefinedType[ExamplePoint] {,/test/ExamplePointUDT.scala
+case class JdbcType(databaseTypeDefinition : String, jdbcNullType : Int),/jdbc/JdbcDialects.scala
+private object NoopDialect extends JdbcDialect {,/jdbc/JdbcDialects.scala
+private object DB2Dialect extends JdbcDialect {,/jdbc/DB2Dialect.scala
+private object PostgresDialect extends JdbcDialect {,/jdbc/PostgresDialect.scala
+private case object OracleDialect extends JdbcDialect {,/jdbc/OracleDialect.scala
+private object DerbyDialect extends JdbcDialect {,/jdbc/DerbyDialect.scala
+private object MsSqlServerDialect extends JdbcDialect {,/jdbc/MsSqlServerDialect.scala
+private case object MySQLDialect extends JdbcDialect {,/jdbc/MySQLDialect.scala
+private class AggregatedDialect(dialects: List[JdbcDialect]) extends JdbcDialect {,/jdbc/AggregatedDialect.scala
+private[sql] object SQLUtils extends Logging {,/api/r/SQLUtils.scala
+class SQLBuilder private (,/catalyst/SQLBuilder.scala

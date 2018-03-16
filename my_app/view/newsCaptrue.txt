@@ -1,0 +1,42 @@
+$def with(contents)
+
+
+
+
+$def photoBox(photo):
+    <div class="photoBox3">
+
+    <div class="photoContain"><a href="" target="_blank"  title=""><img src="" width="110" height="80" alt="" ></span></a>
+    </div>
+
+    <p class="photoTitle"><a href="" target="_blank" title=""></a></p>
+
+    </div>
+
+
+
+
+
+$def headlineNews(hl):
+    <div class="headlineNews">
+        <h3 class="hlTitle"><a href="$hl[0].url" target="_blank" title="$hl[0].title">$hl[0].text</a></h3>
+        <ul class="hlRelated">
+            $for li in hl[1:]:
+                <li><a href="$li.url" target="_blank" title="$li.title">$li.text</a></li>
+            
+        <ul class="hlList2">
+        </ul>
+    </div>
+
+
+$def newsBox(content1,photobox,headline):
+    <div class="newsBox" id="sports">
+    <div class="newsMain">
+    <h2 class="newsCaption"><a href="$content1.captionUrl">$content1.captionText</a></h2>
+    $headlineNews(content1.headlines)
+
+    </div>
+    </div>
+
+$for content in contents:
+    $newsBox(content,None,None)

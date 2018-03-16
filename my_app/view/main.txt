@@ -1,0 +1,15 @@
+$def with(s)
+
+<html>
+<head>
+
+<title>搜狗搜索引擎 - 上网从搜狗开始</title>
+</head>
+
+<body class="" onload="">
+
+<img src="/static/img/leaf02.gif">        <br><br><br><br><a href=/sitemap.html>sitemap &gt;</a>
+
+</body>
+<script src="/js/jquery-1.11.0.min.js"></script>
+</html>

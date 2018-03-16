@@ -1,0 +1,39 @@
+$def with(title, breadc, source)
+<html>
+<head>
+<meta charset ="UTF-8"> 
+<link rel="stylesheet" href="/static/css/codemirror.css">
+<script src="/static/goog/codemirror.js"></script>
+<script src="/static/goog/clike.js"></script>
+<style type="text/css">
+                html, body {height: 100%;}
+                codepad
+        </style>
+<title>$title</title></head>
+<body>
+
+<div id = nav>  
+$breadc
+<a href=/o/code/dir><img src=/img/refresh.png width='32' height='32'></a>
+<form id = goto method=get action=/o/code/search><input type=text name=kw id=classname><input type=submit></form></div>
+<div id=extension></div>
+
+<legend></legend>
+<textarea id="code" style="height:2000px; width=1500; border-width:5px; border-style:solid;">
+$source
+</textarea>
+
+</body>
+
+<script>
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  mode: "text/x-scala",
+  height: "2000px",
+  lineNumbers: true,
+  scrollbarStyle: 'null',
+  viewportMargin: Infinity
+});
+editor.setSize("100%","100%");
+</script>
+</html>
+

@@ -1,0 +1,15 @@
+$def with(response)
+<html>
+	<title>image net </title>
+<body>
+	<div id=query>
+		<form action=/o/imagenet/ method=get>
+                     input url:  <input type=text name=url><br>
+                     <input type=submit>
+		</form>
+	</div>
+	<div id = response>
+                $response
+	</div>
+</body>
+<html>

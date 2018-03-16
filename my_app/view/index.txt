@@ -1,0 +1,36 @@
+$def with (todos)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>   Viewing todo list     </title>
+  <style type="text/css">
+    h2 span { font-size:80%; color:#666; font-weight:normal; }
+  
+ </style>
+  <script type="text/javascript">
+  </script>
+</head>
+
+
+$def table(todos):
+    <table>
+        $for v in todos:
+            $tr(v)
+    </table>
+ 
+$def tr(v):
+    <tr>
+
+        <td>$v['id']</td><td>$v['title']</td>
+    </tr>
+
+<body>
+<div id = 'editor'> <form action=/todo/new method="post"><input name="title" id="title" type=text><input type = submit></form>
+</div>
+
+$table(todos)
+
+<div id = xy>
+</div>
+</body>

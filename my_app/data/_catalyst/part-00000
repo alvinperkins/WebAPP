@@ -1,0 +1,504 @@
+class AnalysisException protected[sql] (,/AnalysisException.scala
+class SQLConf extends Serializable with Logging {,/internal/SQLConf.scala
+class ShortType private() extends IntegralType {,/types/ShortType.scala
+case object ShortType extends ShortType,/types/ShortType.scala
+class BooleanType private() extends AtomicType {,/types/BooleanType.scala
+case object BooleanType extends BooleanType,/types/BooleanType.scala
+private[sql] abstract class AbstractDataType {,/types/AbstractDataType.scala
+private[sql] class TypeCollection(private val types: Seq[AbstractDataType]),/types/AbstractDataType.scala
+private[sql] object TypeCollection {,/types/AbstractDataType.scala
+private[sql] object NumericType extends AbstractDataType {,/types/AbstractDataType.scala
+private[sql] object IntegralType extends AbstractDataType {,/types/AbstractDataType.scala
+private[sql] abstract class IntegralType extends NumericType {,/types/AbstractDataType.scala
+private[sql] object FractionalType {,/types/AbstractDataType.scala
+private[sql] abstract class FractionalType extends NumericType {,/types/AbstractDataType.scala
+private[spark],/types/UserDefinedType.scala
+private[sql] class PythonUserDefinedType(,/types/UserDefinedType.scala
+case class StructField(,/types/StructField.scala
+class DoubleType private() extends FractionalType {,/types/DoubleType.scala
+case object DoubleType extends DoubleType,/types/DoubleType.scala
+class StringType private() extends AtomicType {,/types/StringType.scala
+case object StringType extends StringType,/types/StringType.scala
+class TimestampType private() extends AtomicType {,/types/TimestampType.scala
+case object TimestampType extends TimestampType,/types/TimestampType.scala
+private[spark],/types/UDTRegistration.scala
+case class StructType(fields: Array[StructField]) extends DataType with Seq[StructField] {,/types/StructType.scala
+class LongType private() extends IntegralType {,/types/LongType.scala
+case object LongType extends LongType,/types/LongType.scala
+class ByteType private() extends IntegralType {,/types/ByteType.scala
+case object ByteType extends ByteType,/types/ByteType.scala
+case class MapType(,/types/MapType.scala
+case class DecimalType(precision: Int, scale: Int) extends FractionalType {,/types/DecimalType.scala
+case class ArrayType(elementType: DataType, containsNull: Boolean) extends DataType {,/types/ArrayType.scala
+class NullType private() extends DataType {,/types/NullType.scala
+case object NullType extends NullType,/types/NullType.scala
+case class CharType(length: Int) extends HiveStringType {,/types/HiveStringType.scala
+case class VarcharType(length: Int) extends HiveStringType {,/types/HiveStringType.scala
+class IntegerType private() extends IntegralType {,/types/IntegerType.scala
+case object IntegerType extends IntegerType,/types/IntegerType.scala
+class BinaryType private() extends AtomicType {,/types/BinaryType.scala
+case object BinaryType extends BinaryType,/types/BinaryType.scala
+class DateType private() extends AtomicType {,/types/DateType.scala
+case object DateType extends DateType,/types/DateType.scala
+class CalendarIntervalType private() extends DataType {,/types/CalendarIntervalType.scala
+case object CalendarIntervalType extends CalendarIntervalType,/types/CalendarIntervalType.scala
+class MetadataBuilder {,/types/Metadata.scala
+case class ObjectType(cls: Class[_]) extends DataType {,/types/ObjectType.scala
+class FloatType private() extends FractionalType {,/types/FloatType.scala
+case object FloatType extends FloatType,/types/FloatType.scala
+case class TableIdentifier(table: String, database: Option[String]),/catalyst/identifiers.scala
+case class FunctionIdentifier(funcName: String, database: Option[String]),/catalyst/identifiers.scala
+case class SimpleCatalystConf(,/catalyst/SimpleCatalystConf.scala
+case class FunctionResource(resourceType: FunctionResourceType, uri: String),/catalyst/catalog/functionResources.scala
+class GlobalTempViewManager(val database: String) {,/catalyst/catalog/GlobalTempViewManager.scala
+class InMemoryCatalog(,/catalyst/catalog/InMemoryCatalog.scala
+case class CatalogFunction(,/catalyst/catalog/interface.scala
+case class CatalogStorageFormat(,/catalyst/catalog/interface.scala
+case class CatalogTablePartition(,/catalyst/catalog/interface.scala
+case class BucketSpec(,/catalyst/catalog/interface.scala
+case class CatalogTable(,/catalyst/catalog/interface.scala
+case class CatalogTableType private(name: String),/catalyst/catalog/interface.scala
+case class CatalogDatabase(,/catalyst/catalog/interface.scala
+case class SimpleCatalogRelation(,/catalyst/catalog/interface.scala
+class SessionCatalog(,/catalyst/catalog/SessionCatalog.scala
+case class OptimizeIn(conf: CatalystConf) extends Rule[LogicalPlan] {,/catalyst/optimizer/expressions.scala
+case class OptimizeCodegen(conf: CatalystConf) extends Rule[LogicalPlan] {,/catalyst/optimizer/expressions.scala
+case class GetCurrentDatabase(sessionCatalog: SessionCatalog) extends Rule[LogicalPlan] {,/catalyst/optimizer/finishAnalysis.scala
+class SimpleTestOptimizer extends Optimizer(,/catalyst/optimizer/Optimizer.scala
+case class CheckCartesianProducts(conf: CatalystConf),/catalyst/optimizer/Optimizer.scala
+case object Inner extends InnerLike {,/catalyst/plans/joinTypes.scala
+case object Cross extends InnerLike {,/catalyst/plans/joinTypes.scala
+case object LeftOuter extends JoinType {,/catalyst/plans/joinTypes.scala
+case object RightOuter extends JoinType {,/catalyst/plans/joinTypes.scala
+case object FullOuter extends JoinType {,/catalyst/plans/joinTypes.scala
+case object LeftSemi extends JoinType {,/catalyst/plans/joinTypes.scala
+case object LeftAnti extends JoinType {,/catalyst/plans/joinTypes.scala
+case class ExistenceJoin(exists: Attribute) extends JoinType {,/catalyst/plans/joinTypes.scala
+case class NaturalJoin(tpe: JoinType) extends JoinType {,/catalyst/plans/joinTypes.scala
+case class UsingJoin(tpe: JoinType, usingColumns: Seq[String]) extends JoinType {,/catalyst/plans/joinTypes.scala
+case class ReturnAnswer(child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Subquery(child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Project(projectList: Seq[NamedExpression], child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Generate(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Filter(condition: Expression, child: LogicalPlan),/catalyst/plans/logical/basicLogicalOperators.scala
+case class Intersect(left: LogicalPlan, right: LogicalPlan) extends SetOperation(left, right) {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Except(left: LogicalPlan, right: LogicalPlan) extends SetOperation(left, right) {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Union(children: Seq[LogicalPlan]) extends LogicalPlan {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Join(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class BroadcastHint(child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class OverwriteOptions(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class InsertIntoTable(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class With(child: LogicalPlan, cteRelations: Seq[(String, SubqueryAlias)]) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class WithWindowDefinition(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Sort(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Range(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Aggregate(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Window(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Expand(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class GroupingSets(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Pivot(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class GlobalLimit(limitExpr: Expression, child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class LocalLimit(limitExpr: Expression, child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class SubqueryAlias(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Sample(,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Distinct(child: LogicalPlan) extends UnaryNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class Repartition(numPartitions: Int, shuffle: Boolean, child: LogicalPlan),/catalyst/plans/logical/basicLogicalOperators.scala
+case class RepartitionByExpression(,/catalyst/plans/logical/basicLogicalOperators.scala
+case object OneRowRelation extends LeafNode {,/catalyst/plans/logical/basicLogicalOperators.scala
+case class DeserializeToObject(,/catalyst/plans/logical/object.scala
+case class SerializeFromObject(,/catalyst/plans/logical/object.scala
+case class MapPartitions(,/catalyst/plans/logical/object.scala
+case class MapPartitionsInR(,/catalyst/plans/logical/object.scala
+case class MapElements(,/catalyst/plans/logical/object.scala
+case class TypedFilter(,/catalyst/plans/logical/object.scala
+case class AppendColumns(,/catalyst/plans/logical/object.scala
+case class AppendColumnsWithObject(,/catalyst/plans/logical/object.scala
+case class MapGroups(,/catalyst/plans/logical/object.scala
+case class FlatMapGroupsInR(,/catalyst/plans/logical/object.scala
+case class CoGroup(,/catalyst/plans/logical/object.scala
+case class LocalRelation(output: Seq[Attribute], data: Seq[InternalRow] = Nil),/catalyst/plans/logical/LocalRelation.scala
+case class ScriptTransformation(,/catalyst/plans/logical/ScriptTransformation.scala
+case class ScriptInputOutputSchema(,/catalyst/plans/logical/ScriptTransformation.scala
+case class Statistics(,/catalyst/plans/logical/Statistics.scala
+case class ColumnStat(,/catalyst/plans/logical/Statistics.scala
+case class EventTimeWatermark(,/catalyst/plans/logical/EventTimeWatermark.scala
+case object UnspecifiedDistribution extends Distribution,/catalyst/plans/physical/partitioning.scala
+case object AllTuples extends Distribution,/catalyst/plans/physical/partitioning.scala
+case class ClusteredDistribution(clustering: Seq[Expression]) extends Distribution {,/catalyst/plans/physical/partitioning.scala
+case class OrderedDistribution(ordering: Seq[SortOrder]) extends Distribution {,/catalyst/plans/physical/partitioning.scala
+case class BroadcastDistribution(mode: BroadcastMode) extends Distribution,/catalyst/plans/physical/partitioning.scala
+case class UnknownPartitioning(numPartitions: Int) extends Partitioning {,/catalyst/plans/physical/partitioning.scala
+case class RoundRobinPartitioning(numPartitions: Int) extends Partitioning {,/catalyst/plans/physical/partitioning.scala
+case object SinglePartition extends Partitioning {,/catalyst/plans/physical/partitioning.scala
+case class HashPartitioning(expressions: Seq[Expression], numPartitions: Int),/catalyst/plans/physical/partitioning.scala
+case class RangePartitioning(ordering: Seq[SortOrder], numPartitions: Int),/catalyst/plans/physical/partitioning.scala
+case class PartitioningCollection(partitionings: Seq[Partitioning]),/catalyst/plans/physical/partitioning.scala
+case class BroadcastPartitioning(mode: BroadcastMode) extends Partitioning {,/catalyst/plans/physical/partitioning.scala
+case object IdentityBroadcastMode extends BroadcastMode {,/catalyst/plans/physical/broadcastMode.scala
+private class MutableInt(var i: Int),/catalyst/trees/TreeNode.scala
+case class Origin(,/catalyst/trees/TreeNode.scala
+class NoSuchDatabaseException(db: String) extends AnalysisException(s"Database '$db' not found"),/catalyst/analysis/NoSuchItemException.scala
+class NoSuchTableException(db: String, table: String),/catalyst/analysis/NoSuchItemException.scala
+class NoSuchPartitionException(,/catalyst/analysis/NoSuchItemException.scala
+class NoSuchPermanentFunctionException(db: String, func: String),/catalyst/analysis/NoSuchItemException.scala
+class NoSuchFunctionException(db: String, func: String),/catalyst/analysis/NoSuchItemException.scala
+class NoSuchPartitionsException(db: String, table: String, specs: Seq[TablePartitionSpec]),/catalyst/analysis/NoSuchItemException.scala
+class NoSuchTempFunctionException(func: String),/catalyst/analysis/NoSuchItemException.scala
+class SimpleFunctionRegistry extends FunctionRegistry {,/catalyst/analysis/FunctionRegistry.scala
+class DatabaseAlreadyExistsException(db: String),/catalyst/analysis/AlreadyExistException.scala
+class TableAlreadyExistsException(db: String, table: String),/catalyst/analysis/AlreadyExistException.scala
+class TempTableAlreadyExistsException(table: String),/catalyst/analysis/AlreadyExistException.scala
+class PartitionAlreadyExistsException(db: String, table: String, spec: TablePartitionSpec),/catalyst/analysis/AlreadyExistException.scala
+class PartitionsAlreadyExistException(db: String, table: String, specs: Seq[TablePartitionSpec]),/catalyst/analysis/AlreadyExistException.scala
+class FunctionAlreadyExistsException(db: String, func: String),/catalyst/analysis/AlreadyExistException.scala
+class TempFunctionAlreadyExistsException(func: String),/catalyst/analysis/AlreadyExistException.scala
+class Analyzer(,/catalyst/analysis/Analyzer.scala
+class UnresolvedException[TreeType <: TreeNode[_]](tree: TreeType, function: String),/catalyst/analysis/unresolved.scala
+case class UnresolvedRelation(,/catalyst/analysis/unresolved.scala
+case class UnresolvedInlineTable(,/catalyst/analysis/unresolved.scala
+case class UnresolvedTableValuedFunction(functionName: String, functionArgs: Seq[Expression]),/catalyst/analysis/unresolved.scala
+case class UnresolvedAttribute(nameParts: Seq[String]) extends Attribute with Unevaluable {,/catalyst/analysis/unresolved.scala
+case class UnresolvedGenerator(name: FunctionIdentifier, children: Seq[Expression]),/catalyst/analysis/unresolved.scala
+case class UnresolvedFunction(,/catalyst/analysis/unresolved.scala
+case class UnresolvedStar(target: Option[Seq[String]]) extends Star with Unevaluable {,/catalyst/analysis/unresolved.scala
+case class MultiAlias(child: Expression, names: Seq[String]),/catalyst/analysis/unresolved.scala
+case class ResolvedStar(expressions: Seq[NamedExpression]) extends Star with Unevaluable {,/catalyst/analysis/unresolved.scala
+case class UnresolvedExtractValue(child: Expression, extraction: Expression),/catalyst/analysis/unresolved.scala
+case class UnresolvedAlias(,/catalyst/analysis/unresolved.scala
+case class UnresolvedDeserializer(deserializer: Expression, inputAttributes: Seq[Attribute] = Nil),/catalyst/analysis/unresolved.scala
+case class GetColumnByOrdinal(ordinal: Int, dataType: DataType) extends LeafExpression,/catalyst/analysis/unresolved.scala
+case class UnresolvedOrdinal(ordinal: Int),/catalyst/analysis/unresolved.scala
+class SubstituteUnresolvedOrdinals(conf: CatalystConf) extends Rule[LogicalPlan] {,/catalyst/analysis/SubstituteUnresolvedOrdinals.scala
+class AstBuilder extends SqlBaseBaseVisitor[AnyRef] with Logging {,/catalyst/parser/AstBuilder.scala
+private[parser] class ANTLRNoCaseStringStream(input: String) extends ANTLRInputStream(input) {,/catalyst/parser/ParseDriver.scala
+case object ParseErrorListener extends BaseErrorListener {,/catalyst/parser/ParseDriver.scala
+class ParseException(,/catalyst/parser/ParseDriver.scala
+case object PostProcessor extends SqlBaseBaseListener {,/catalyst/parser/ParseDriver.scala
+private object GenericArrayData {,/catalyst/util/GenericArrayData.scala
+class GenericArrayData(val array: Array[Any]) extends ArrayData {,/catalyst/util/GenericArrayData.scala
+class QuantileSummaries(,/catalyst/util/QuantileSummaries.scala
+class StringKeyHashMap[T](normalizer: (String) => String) {,/catalyst/util/StringKeyHashMap.scala
+class ArrayBasedMapData(val keyArray: ArrayData, val valueArray: ArrayData) extends MapData {,/catalyst/util/ArrayBasedMapData.scala
+class CaseInsensitiveMap(map: Map[String, String]) extends Map[String, String],/catalyst/util/CaseInsensitiveMap.scala
+class AbstractScalaRowIterator[T] extends Iterator[T] {,/catalyst/util/AbstractScalaRowIterator.scala
+private[sql] object InternalOutputModes {,/catalyst/streaming/InternalOutputModes.scala
+case class Cube(groupByExprs: Seq[Expression]) extends GroupingSet {},/catalyst/expressions/grouping.scala
+case class Rollup(groupByExprs: Seq[Expression]) extends GroupingSet {},/catalyst/expressions/grouping.scala
+case class Grouping(child: Expression) extends Expression with Unevaluable {,/catalyst/expressions/grouping.scala
+case class GroupingID(groupByExprs: Seq[Expression]) extends Expression with Unevaluable {,/catalyst/expressions/grouping.scala
+case class SparkPartitionID() extends LeafExpression with Nondeterministic {,/catalyst/expressions/SparkPartitionID.scala
+case class ScalaUDF(,/catalyst/expressions/ScalaUDF.scala
+case class BoundReference(ordinal: Int, dataType: DataType, nullable: Boolean),/catalyst/expressions/BoundAttribute.scala
+case class BitwiseAnd(left: Expression, right: Expression) extends BinaryArithmetic {,/catalyst/expressions/bitwiseExpressions.scala
+case class BitwiseOr(left: Expression, right: Expression) extends BinaryArithmetic {,/catalyst/expressions/bitwiseExpressions.scala
+case class BitwiseXor(left: Expression, right: Expression) extends BinaryArithmetic {,/catalyst/expressions/bitwiseExpressions.scala
+case class BitwiseNot(child: Expression) extends UnaryExpression with ExpectsInputTypes {,/catalyst/expressions/bitwiseExpressions.scala
+case class WindowSpecDefinition(,/catalyst/expressions/windowExpressions.scala
+case class WindowSpecReference(name: String) extends WindowSpec,/catalyst/expressions/windowExpressions.scala
+case object RowFrame extends FrameType,/catalyst/expressions/windowExpressions.scala
+case object RangeFrame extends FrameType,/catalyst/expressions/windowExpressions.scala
+case object UnboundedPreceding extends FrameBoundary {,/catalyst/expressions/windowExpressions.scala
+case class ValuePreceding(value: Int) extends FrameBoundary {,/catalyst/expressions/windowExpressions.scala
+case object CurrentRow extends FrameBoundary {,/catalyst/expressions/windowExpressions.scala
+case class ValueFollowing(value: Int) extends FrameBoundary {,/catalyst/expressions/windowExpressions.scala
+case object UnboundedFollowing extends FrameBoundary {,/catalyst/expressions/windowExpressions.scala
+case object UnspecifiedFrame extends WindowFrame,/catalyst/expressions/windowExpressions.scala
+case class SpecifiedWindowFrame(,/catalyst/expressions/windowExpressions.scala
+case class UnresolvedWindowExpression(,/catalyst/expressions/windowExpressions.scala
+case class WindowExpression(,/catalyst/expressions/windowExpressions.scala
+case class Lead(input: Expression, offset: Expression, default: Expression),/catalyst/expressions/windowExpressions.scala
+case class Lag(input: Expression, offset: Expression, default: Expression),/catalyst/expressions/windowExpressions.scala
+case class RowNumber() extends RowNumberLike {,/catalyst/expressions/windowExpressions.scala
+case class CumeDist() extends RowNumberLike with SizeBasedWindowFunction {,/catalyst/expressions/windowExpressions.scala
+case class NTile(buckets: Expression) extends RowNumberLike with SizeBasedWindowFunction {,/catalyst/expressions/windowExpressions.scala
+case class Rank(children: Seq[Expression]) extends RankLike {,/catalyst/expressions/windowExpressions.scala
+case class DenseRank(children: Seq[Expression]) extends RankLike {,/catalyst/expressions/windowExpressions.scala
+case class PercentRank(children: Seq[Expression]) extends RankLike with SizeBasedWindowFunction {,/catalyst/expressions/windowExpressions.scala
+case class Like(left: Expression, right: Expression),/catalyst/expressions/regexpExpressions.scala
+case class RLike(left: Expression, right: Expression),/catalyst/expressions/regexpExpressions.scala
+case class StringSplit(str: Expression, pattern: Expression),/catalyst/expressions/regexpExpressions.scala
+case class RegExpReplace(subject: Expression, regexp: Expression, rep: Expression),/catalyst/expressions/regexpExpressions.scala
+case class RegExpExtract(subject: Expression, regexp: Expression, idx: Expression),/catalyst/expressions/regexpExpressions.scala
+case class Cast(child: Expression, dataType: DataType) extends UnaryExpression with NullIntolerant {,/catalyst/expressions/Cast.scala
+case class UpCast(child: Expression, dataType: DataType, walkedTypePath: Seq[String]),/catalyst/expressions/Cast.scala
+case class PrintToStderr(child: Expression) extends UnaryExpression {,/catalyst/expressions/misc.scala
+case class AssertTrue(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/misc.scala
+case class CurrentDatabase() extends LeafExpression with Unevaluable {,/catalyst/expressions/misc.scala
+case class ScalarSubquery(,/catalyst/expressions/subquery.scala
+case class PredicateSubquery(,/catalyst/expressions/subquery.scala
+case class ListQuery(plan: LogicalPlan, exprId: ExprId = NamedExpression.newExprId),/catalyst/expressions/subquery.scala
+case class Exists(plan: LogicalPlan, exprId: ExprId = NamedExpression.newExprId),/catalyst/expressions/subquery.scala
+case class Concat(children: Seq[Expression]) extends Expression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class ConcatWs(children: Seq[Expression]),/catalyst/expressions/stringExpressions.scala
+case class Elt(children: Seq[Expression]),/catalyst/expressions/stringExpressions.scala
+case class Upper(child: Expression),/catalyst/expressions/stringExpressions.scala
+case class Lower(child: Expression) extends UnaryExpression with String2StringExpression {,/catalyst/expressions/stringExpressions.scala
+case class Contains(left: Expression, right: Expression),/catalyst/expressions/stringExpressions.scala
+case class StartsWith(left: Expression, right: Expression),/catalyst/expressions/stringExpressions.scala
+case class EndsWith(left: Expression, right: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringTranslate(srcExpr: Expression, matchingExpr: Expression, replaceExpr: Expression),/catalyst/expressions/stringExpressions.scala
+case class FindInSet(left: Expression, right: Expression) extends BinaryExpression,/catalyst/expressions/stringExpressions.scala
+case class StringTrim(child: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringTrimLeft(child: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringTrimRight(child: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringInstr(str: Expression, substr: Expression),/catalyst/expressions/stringExpressions.scala
+case class SubstringIndex(strExpr: Expression, delimExpr: Expression, countExpr: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringLocate(substr: Expression, str: Expression, start: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringLPad(str: Expression, len: Expression, pad: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringRPad(str: Expression, len: Expression, pad: Expression),/catalyst/expressions/stringExpressions.scala
+case class ParseUrl(children: Seq[Expression]),/catalyst/expressions/stringExpressions.scala
+case class FormatString(children: Expression*) extends Expression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class InitCap(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class StringRepeat(str: Expression, times: Expression),/catalyst/expressions/stringExpressions.scala
+case class StringReverse(child: Expression) extends UnaryExpression with String2StringExpression {,/catalyst/expressions/stringExpressions.scala
+case class StringSpace(child: Expression),/catalyst/expressions/stringExpressions.scala
+case class Substring(str: Expression, pos: Expression, len: Expression),/catalyst/expressions/stringExpressions.scala
+case class Length(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class Levenshtein(left: Expression, right: Expression) extends BinaryExpression,/catalyst/expressions/stringExpressions.scala
+case class SoundEx(child: Expression) extends UnaryExpression with ExpectsInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class Ascii(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class Base64(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class UnBase64(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/stringExpressions.scala
+case class Decode(bin: Expression, charset: Expression),/catalyst/expressions/stringExpressions.scala
+case class Encode(value: Expression, charset: Expression),/catalyst/expressions/stringExpressions.scala
+case class FormatNumber(x: Expression, d: Expression),/catalyst/expressions/stringExpressions.scala
+case class Sentences(,/catalyst/expressions/stringExpressions.scala
+case class CallMethodViaReflection(children: Seq[Expression]),/catalyst/expressions/CallMethodViaReflection.scala
+case class UnaryMinus(child: Expression) extends UnaryExpression,/catalyst/expressions/arithmetic.scala
+case class UnaryPositive(child: Expression),/catalyst/expressions/arithmetic.scala
+case class Abs(child: Expression),/catalyst/expressions/arithmetic.scala
+case class Add(left: Expression, right: Expression) extends BinaryArithmetic with NullIntolerant {,/catalyst/expressions/arithmetic.scala
+case class Subtract(left: Expression, right: Expression),/catalyst/expressions/arithmetic.scala
+case class Multiply(left: Expression, right: Expression),/catalyst/expressions/arithmetic.scala
+case class Divide(left: Expression, right: Expression),/catalyst/expressions/arithmetic.scala
+case class Remainder(left: Expression, right: Expression),/catalyst/expressions/arithmetic.scala
+case class Pmod(left: Expression, right: Expression) extends BinaryArithmetic with NullIntolerant {,/catalyst/expressions/arithmetic.scala
+case class Least(children: Seq[Expression]) extends Expression {,/catalyst/expressions/arithmetic.scala
+case class Greatest(children: Seq[Expression]) extends Expression {,/catalyst/expressions/arithmetic.scala
+case object Ascending extends SortDirection {,/catalyst/expressions/SortOrder.scala
+case object Descending extends SortDirection {,/catalyst/expressions/SortOrder.scala
+case object NullsFirst extends NullOrdering{,/catalyst/expressions/SortOrder.scala
+case object NullsLast extends NullOrdering{,/catalyst/expressions/SortOrder.scala
+case class SortOrder(child: Expression, direction: SortDirection, nullOrdering: NullOrdering),/catalyst/expressions/SortOrder.scala
+case class SortPrefix(child: SortOrder) extends UnaryExpression {,/catalyst/expressions/SortOrder.scala
+case class TimeWindow(,/catalyst/expressions/TimeWindow.scala
+case class PreciseTimestamp(child: Expression) extends UnaryExpression with ExpectsInputTypes {,/catalyst/expressions/TimeWindow.scala
+class GenericRow(protected[sql] val values: Array[Any]) extends Row {,/catalyst/expressions/rows.scala
+class GenericRowWithSchema(values: Array[Any], override val schema: StructType),/catalyst/expressions/rows.scala
+class GenericInternalRow(val values: Array[Any]) extends BaseGenericInternalRow {,/catalyst/expressions/rows.scala
+case class If(predicate: Expression, trueValue: Expression, falseValue: Expression),/catalyst/expressions/conditionalExpressions.scala
+case class CaseWhen(,/catalyst/expressions/conditionalExpressions.scala
+case class CaseWhenCodegen(,/catalyst/expressions/conditionalExpressions.scala
+case class UserDefinedGenerator(,/catalyst/expressions/generators.scala
+case class Stack(children: Seq[Expression]),/catalyst/expressions/generators.scala
+case class Explode(child: Expression) extends ExplodeBase(child, position = false),/catalyst/expressions/generators.scala
+case class PosExplode(child: Expression) extends ExplodeBase(child, position = true),/catalyst/expressions/generators.scala
+case class Inline(child: Expression) extends UnaryExpression with Generator with CodegenFallback {,/catalyst/expressions/generators.scala
+case class CurrentDate() extends LeafExpression with CodegenFallback {,/catalyst/expressions/datetimeExpressions.scala
+case class CurrentTimestamp() extends LeafExpression with CodegenFallback {,/catalyst/expressions/datetimeExpressions.scala
+case class CurrentBatchTimestamp(timestampMs: Long, dataType: DataType),/catalyst/expressions/datetimeExpressions.scala
+case class DateAdd(startDate: Expression, days: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class DateSub(startDate: Expression, days: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class Hour(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class Minute(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class Second(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class DayOfYear(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class Year(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class Quarter(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class Month(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class DayOfMonth(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class WeekOfYear(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class DateFormatClass(left: Expression, right: Expression) extends BinaryExpression,/catalyst/expressions/datetimeExpressions.scala
+case class ToUnixTimestamp(timeExp: Expression, format: Expression) extends UnixTime {,/catalyst/expressions/datetimeExpressions.scala
+case class UnixTimestamp(timeExp: Expression, format: Expression) extends UnixTime {,/catalyst/expressions/datetimeExpressions.scala
+case class FromUnixTime(sec: Expression, format: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class LastDay(startDate: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class NextDay(startDate: Expression, dayOfWeek: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class TimeAdd(start: Expression, interval: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class FromUTCTimestamp(left: Expression, right: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class TimeSub(start: Expression, interval: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class AddMonths(startDate: Expression, numMonths: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class MonthsBetween(date1: Expression, date2: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class ToUTCTimestamp(left: Expression, right: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class ToDate(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/datetimeExpressions.scala
+case class TruncDate(date: Expression, format: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class DateDiff(endDate: Expression, startDate: Expression),/catalyst/expressions/datetimeExpressions.scala
+case class Size(child: Expression) extends UnaryExpression with ExpectsInputTypes {,/catalyst/expressions/collectionOperations.scala
+case class MapKeys(child: Expression),/catalyst/expressions/collectionOperations.scala
+case class MapValues(child: Expression),/catalyst/expressions/collectionOperations.scala
+case class SortArray(base: Expression, ascendingOrder: Expression),/catalyst/expressions/collectionOperations.scala
+case class ArrayContains(left: Expression, right: Expression),/catalyst/expressions/collectionOperations.scala
+case class InputFileName() extends LeafExpression with Nondeterministic {,/catalyst/expressions/InputFileName.scala
+class AttributeSet private (val baseSet: Set[AttributeEquals]),/catalyst/expressions/AttributeSet.scala
+class AttributeMap[A](baseMap: Map[ExprId, (Attribute, A)]),/catalyst/expressions/AttributeMap.scala
+case class Coalesce(children: Seq[Expression]) extends Expression {,/catalyst/expressions/nullExpressions.scala
+case class IfNull(left: Expression, right: Expression, child: Expression),/catalyst/expressions/nullExpressions.scala
+case class NullIf(left: Expression, right: Expression, child: Expression),/catalyst/expressions/nullExpressions.scala
+case class Nvl(left: Expression, right: Expression, child: Expression) extends RuntimeReplaceable {,/catalyst/expressions/nullExpressions.scala
+case class Nvl2(expr1: Expression, expr2: Expression, expr3: Expression, child: Expression),/catalyst/expressions/nullExpressions.scala
+case class IsNaN(child: Expression) extends UnaryExpression,/catalyst/expressions/nullExpressions.scala
+case class NaNvl(left: Expression, right: Expression),/catalyst/expressions/nullExpressions.scala
+case class IsNull(child: Expression) extends UnaryExpression with Predicate {,/catalyst/expressions/nullExpressions.scala
+case class IsNotNull(child: Expression) extends UnaryExpression with Predicate {,/catalyst/expressions/nullExpressions.scala
+case class AtLeastNNonNulls(n: Int, children: Seq[Expression]) extends Predicate {,/catalyst/expressions/nullExpressions.scala
+class ExpressionSet protected(,/catalyst/expressions/ExpressionSet.scala
+case class MonotonicallyIncreasingID() extends LeafExpression with Nondeterministic {,/catalyst/expressions/MonotonicallyIncreasingID.scala
+class JoinedRow extends InternalRow {,/catalyst/expressions/JoinedRow.scala
+class EquivalentExpressions {,/catalyst/expressions/EquivalentExpressions.scala
+class InterpretedOrdering(ordering: Seq[SortOrder]) extends Ordering[InternalRow] {,/catalyst/expressions/ordering.scala
+case class EulerNumber() extends LeafMathExpression(math.E, "E"),/catalyst/expressions/mathExpressions.scala
+case class Pi() extends LeafMathExpression(math.Pi, "PI"),/catalyst/expressions/mathExpressions.scala
+case class Acos(child: Expression) extends UnaryMathExpression(math.acos, "ACOS"),/catalyst/expressions/mathExpressions.scala
+case class Asin(child: Expression) extends UnaryMathExpression(math.asin, "ASIN"),/catalyst/expressions/mathExpressions.scala
+case class Atan(child: Expression) extends UnaryMathExpression(math.atan, "ATAN"),/catalyst/expressions/mathExpressions.scala
+case class Cbrt(child: Expression) extends UnaryMathExpression(math.cbrt, "CBRT"),/catalyst/expressions/mathExpressions.scala
+case class Ceil(child: Expression) extends UnaryMathExpression(math.ceil, "CEIL") {,/catalyst/expressions/mathExpressions.scala
+case class Cos(child: Expression) extends UnaryMathExpression(math.cos, "COS"),/catalyst/expressions/mathExpressions.scala
+case class Cosh(child: Expression) extends UnaryMathExpression(math.cosh, "COSH"),/catalyst/expressions/mathExpressions.scala
+case class Conv(numExpr: Expression, fromBaseExpr: Expression, toBaseExpr: Expression),/catalyst/expressions/mathExpressions.scala
+case class Exp(child: Expression) extends UnaryMathExpression(math.exp, "EXP"),/catalyst/expressions/mathExpressions.scala
+case class Expm1(child: Expression) extends UnaryMathExpression(math.expm1, "EXPM1"),/catalyst/expressions/mathExpressions.scala
+case class Floor(child: Expression) extends UnaryMathExpression(math.floor, "FLOOR") {,/catalyst/expressions/mathExpressions.scala
+case class Factorial(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/mathExpressions.scala
+case class Log(child: Expression) extends UnaryLogExpression(math.log, "LOG"),/catalyst/expressions/mathExpressions.scala
+case class Log2(child: Expression),/catalyst/expressions/mathExpressions.scala
+case class Log10(child: Expression) extends UnaryLogExpression(math.log10, "LOG10"),/catalyst/expressions/mathExpressions.scala
+case class Log1p(child: Expression) extends UnaryLogExpression(math.log1p, "LOG1P") {,/catalyst/expressions/mathExpressions.scala
+case class Rint(child: Expression) extends UnaryMathExpression(math.rint, "ROUND") {,/catalyst/expressions/mathExpressions.scala
+case class Signum(child: Expression) extends UnaryMathExpression(math.signum, "SIGNUM"),/catalyst/expressions/mathExpressions.scala
+case class Sin(child: Expression) extends UnaryMathExpression(math.sin, "SIN"),/catalyst/expressions/mathExpressions.scala
+case class Sinh(child: Expression) extends UnaryMathExpression(math.sinh, "SINH"),/catalyst/expressions/mathExpressions.scala
+case class Sqrt(child: Expression) extends UnaryMathExpression(math.sqrt, "SQRT"),/catalyst/expressions/mathExpressions.scala
+case class Tan(child: Expression) extends UnaryMathExpression(math.tan, "TAN"),/catalyst/expressions/mathExpressions.scala
+case class Tanh(child: Expression) extends UnaryMathExpression(math.tanh, "TANH"),/catalyst/expressions/mathExpressions.scala
+case class ToDegrees(child: Expression) extends UnaryMathExpression(math.toDegrees, "DEGREES") {,/catalyst/expressions/mathExpressions.scala
+case class ToRadians(child: Expression) extends UnaryMathExpression(math.toRadians, "RADIANS") {,/catalyst/expressions/mathExpressions.scala
+case class Bin(child: Expression),/catalyst/expressions/mathExpressions.scala
+case class Hex(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/mathExpressions.scala
+case class Unhex(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/mathExpressions.scala
+case class Atan2(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class Pow(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class ShiftLeft(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class ShiftRight(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class ShiftRightUnsigned(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class Hypot(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class Logarithm(left: Expression, right: Expression),/catalyst/expressions/mathExpressions.scala
+case class Round(child: Expression, scale: Expression),/catalyst/expressions/mathExpressions.scala
+case class BRound(child: Expression, scale: Expression),/catalyst/expressions/mathExpressions.scala
+case class Rand(child: Expression) extends RDG {,/catalyst/expressions/randomExpressions.scala
+case class Randn(child: Expression) extends RDG {,/catalyst/expressions/randomExpressions.scala
+case class CreateArray(children: Seq[Expression]) extends Expression {,/catalyst/expressions/complexTypeCreator.scala
+case class CreateMap(children: Seq[Expression]) extends Expression {,/catalyst/expressions/complexTypeCreator.scala
+case object NamePlaceholder extends LeafExpression with Unevaluable {,/catalyst/expressions/complexTypeCreator.scala
+case class CreateNamedStruct(children: Seq[Expression]) extends CreateNamedStructLike {,/catalyst/expressions/complexTypeCreator.scala
+case class CreateNamedStructUnsafe(children: Seq[Expression]) extends CreateNamedStructLike {,/catalyst/expressions/complexTypeCreator.scala
+case class StringToMap(text: Expression, pairDelim: Expression, keyValueDelim: Expression),/catalyst/expressions/complexTypeCreator.scala
+case class Literal (value: Any, dataType: DataType) extends LeafExpression with CodegenFallback {,/catalyst/expressions/literals.scala
+case class UnscaledValue(child: Expression) extends UnaryExpression {,/catalyst/expressions/decimalExpressions.scala
+case class MakeDecimal(child: Expression, precision: Int, scale: Int) extends UnaryExpression {,/catalyst/expressions/decimalExpressions.scala
+case class PromotePrecision(child: Expression) extends UnaryExpression {,/catalyst/expressions/decimalExpressions.scala
+case class CheckOverflow(child: Expression, dataType: DecimalType) extends UnaryExpression {,/catalyst/expressions/decimalExpressions.scala
+private[this] sealed trait PathInstruction,/catalyst/expressions/jsonExpressions.scala
+private[this] object PathInstruction {,/catalyst/expressions/jsonExpressions.scala
+private[this] sealed trait WriteStyle,/catalyst/expressions/jsonExpressions.scala
+private[this] object WriteStyle {,/catalyst/expressions/jsonExpressions.scala
+private[this] object JsonPathParser extends RegexParsers {,/catalyst/expressions/jsonExpressions.scala
+private[this] object SharedFactory {,/catalyst/expressions/jsonExpressions.scala
+case class GetJsonObject(json: Expression, path: Expression),/catalyst/expressions/jsonExpressions.scala
+case class JsonTuple(children: Seq[Expression]),/catalyst/expressions/jsonExpressions.scala
+case class JsonToStruct(schema: StructType, options: Map[String, String], child: Expression),/catalyst/expressions/jsonExpressions.scala
+case class StructToJson(options: Map[String, String], child: Expression),/catalyst/expressions/jsonExpressions.scala
+class InterpretedProjection(expressions: Seq[Expression]) extends Projection {,/catalyst/expressions/Projection.scala
+case class InterpretedMutableProjection(expressions: Seq[Expression]) extends MutableProjection {,/catalyst/expressions/Projection.scala
+case class GetStructField(child: Expression, ordinal: Int, name: Option[String] = None),/catalyst/expressions/complexTypeExtractors.scala
+case class GetArrayStructFields(,/catalyst/expressions/complexTypeExtractors.scala
+case class GetArrayItem(child: Expression, ordinal: Expression),/catalyst/expressions/complexTypeExtractors.scala
+case class GetMapValue(child: Expression, key: Expression),/catalyst/expressions/complexTypeExtractors.scala
+case class Md5(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/hash.scala
+case class Sha2(left: Expression, right: Expression),/catalyst/expressions/hash.scala
+case class Sha1(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/hash.scala
+case class Crc32(child: Expression) extends UnaryExpression with ImplicitCastInputTypes {,/catalyst/expressions/hash.scala
+case class Murmur3Hash(children: Seq[Expression], seed: Int) extends HashExpression[Int] {,/catalyst/expressions/hash.scala
+case class XxHash64(children: Seq[Expression], seed: Long) extends HashExpression[Long] {,/catalyst/expressions/hash.scala
+case class HiveHash(children: Seq[Expression]) extends HashExpression[Int] {,/catalyst/expressions/hash.scala
+case class ReferenceToExpressions(result: Expression, children: Seq[Expression]),/catalyst/expressions/ReferenceToExpressions.scala
+case class Not(child: Expression),/catalyst/expressions/predicates.scala
+case class In(value: Expression, list: Seq[Expression]) extends Predicate,/catalyst/expressions/predicates.scala
+case class InSet(child: Expression, hset: Set[Any]) extends UnaryExpression with Predicate {,/catalyst/expressions/predicates.scala
+case class And(left: Expression, right: Expression) extends BinaryOperator with Predicate {,/catalyst/expressions/predicates.scala
+case class Or(left: Expression, right: Expression) extends BinaryOperator with Predicate {,/catalyst/expressions/predicates.scala
+case class EqualTo(left: Expression, right: Expression),/catalyst/expressions/predicates.scala
+case class EqualNullSafe(left: Expression, right: Expression) extends BinaryComparison {,/catalyst/expressions/predicates.scala
+case class LessThan(left: Expression, right: Expression),/catalyst/expressions/predicates.scala
+case class LessThanOrEqual(left: Expression, right: Expression),/catalyst/expressions/predicates.scala
+case class GreaterThan(left: Expression, right: Expression),/catalyst/expressions/predicates.scala
+case class GreaterThanOrEqual(left: Expression, right: Expression),/catalyst/expressions/predicates.scala
+case class ExprId(id: Long, jvmId: UUID),/catalyst/expressions/namedExpressions.scala
+case class Alias(child: Expression, name: String)(,/catalyst/expressions/namedExpressions.scala
+case class AttributeReference(,/catalyst/expressions/namedExpressions.scala
+case class PrettyAttribute(,/catalyst/expressions/namedExpressions.scala
+case class OuterReference(e: NamedExpression),/catalyst/expressions/namedExpressions.scala
+case class StaticInvoke(,/catalyst/expressions/objects/objects.scala
+case class Invoke(,/catalyst/expressions/objects/objects.scala
+case class NewInstance(,/catalyst/expressions/objects/objects.scala
+case class UnwrapOption(,/catalyst/expressions/objects/objects.scala
+case class WrapOption(child: Expression, optType: DataType),/catalyst/expressions/objects/objects.scala
+case class LambdaVariable(value: String, isNull: String, dataType: DataType) extends LeafExpression,/catalyst/expressions/objects/objects.scala
+case class MapObjects private(,/catalyst/expressions/objects/objects.scala
+case class ExternalMapToCatalyst private(,/catalyst/expressions/objects/objects.scala
+case class CreateExternalRow(children: Seq[Expression], schema: StructType),/catalyst/expressions/objects/objects.scala
+case class EncodeUsingSerializer(child: Expression, kryo: Boolean),/catalyst/expressions/objects/objects.scala
+case class DecodeUsingSerializer[T](child: Expression, tag: ClassTag[T], kryo: Boolean),/catalyst/expressions/objects/objects.scala
+case class InitializeJavaBean(beanInstance: Expression, setters: Map[String, Expression]),/catalyst/expressions/objects/objects.scala
+case class AssertNotNull(child: Expression, walkedTypePath: Seq[String] = Nil),/catalyst/expressions/objects/objects.scala
+case class GetExternalRowField(,/catalyst/expressions/objects/objects.scala
+case class ValidateExternalType(child: Expression, expected: DataType),/catalyst/expressions/objects/objects.scala
+case class XPathBoolean(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathShort(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathInt(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathLong(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathFloat(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathDouble(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathString(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class XPathList(xml: Expression, path: Expression) extends XPathExtract {,/catalyst/expressions/xml/xpath.scala
+case class Min(child: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Min.scala
+case class Corr(x: Expression, y: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Corr.scala
+case class Count(children: Seq[Expression]) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Count.scala
+case class First(child: Expression, ignoreNullsExpr: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/First.scala
+case object Partial extends AggregateMode,/catalyst/expressions/aggregate/interfaces.scala
+case object PartialMerge extends AggregateMode,/catalyst/expressions/aggregate/interfaces.scala
+case object Final extends AggregateMode,/catalyst/expressions/aggregate/interfaces.scala
+case object Complete extends AggregateMode,/catalyst/expressions/aggregate/interfaces.scala
+case object NoOp extends Expression with Unevaluable {,/catalyst/expressions/aggregate/interfaces.scala
+case class AggregateExpression(,/catalyst/expressions/aggregate/interfaces.scala
+case class Percentile(,/catalyst/expressions/aggregate/Percentile.scala
+case class Last(child: Expression, ignoreNullsExpr: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Last.scala
+case class Max(child: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Max.scala
+case class Average(child: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Average.scala
+case class HyperLogLogPlusPlus(,/catalyst/expressions/aggregate/HyperLogLogPlusPlus.scala
+case class CovPopulation(left: Expression, right: Expression) extends Covariance(left, right) {,/catalyst/expressions/aggregate/Covariance.scala
+case class CovSample(left: Expression, right: Expression) extends Covariance(left, right) {,/catalyst/expressions/aggregate/Covariance.scala
+case class Sum(child: Expression) extends DeclarativeAggregate {,/catalyst/expressions/aggregate/Sum.scala
+case class StddevPop(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class StddevSamp(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class VariancePop(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class VarianceSamp(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class Skewness(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class Kurtosis(child: Expression) extends CentralMomentAgg(child) {,/catalyst/expressions/aggregate/CentralMomentAgg.scala
+case class ApproximatePercentile(,/catalyst/expressions/aggregate/ApproximatePercentile.scala
+case class PivotFirst(,/catalyst/expressions/aggregate/PivotFirst.scala
+case class CollectList(,/catalyst/expressions/aggregate/collect.scala
+case class CollectSet(,/catalyst/expressions/aggregate/collect.scala
+private class CodeFormatter {,/catalyst/expressions/codegen/CodeFormatter.scala
+case class ExprCode(var code: String, var isNull: String, var value: String),/catalyst/expressions/codegen/CodeGenerator.scala
+case class SubExprEliminationState(isNull: String, value: String),/catalyst/expressions/codegen/CodeGenerator.scala
+case class SubExprCodes(codes: Seq[String], states: Map[Expression, SubExprEliminationState]),/catalyst/expressions/codegen/CodeGenerator.scala
+class CodegenContext {,/catalyst/expressions/codegen/CodeGenerator.scala
+class CodeAndComment(val body: String, val comment: collection.Map[String, String]),/catalyst/expressions/codegen/CodeGenerator.scala
+class BaseOrdering extends Ordering[InternalRow] {,/catalyst/expressions/codegen/GenerateOrdering.scala
+class LazilyGeneratedOrdering(val ordering: Seq[SortOrder]),/catalyst/expressions/codegen/GenerateOrdering.scala
+private[sql] class JacksonGenerator(,/catalyst/json/JacksonGenerator.scala
+private[sql] class JSONOptions(,/catalyst/json/JSONOptions.scala
+private[sql] class SparkSQLJsonProcessingException(msg: String) extends RuntimeException(msg),/catalyst/json/JacksonParser.scala
+class JacksonParser(,/catalyst/json/JacksonParser.scala
+case class ExpressionEncoder[T](,/catalyst/encoders/ExpressionEncoder.scala

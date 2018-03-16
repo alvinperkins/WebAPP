@@ -1,0 +1,24 @@
+$def with(newsBox)
+
+<html>
+<head>
+
+<title></title>
+
+
+<style type="text/css">
+.newsCaption{height:29px;padding:0 10px;background:#f0f6fb;font:bold 14px/29px arial, sans-serif; position: relative;}
+.newsBox{width:980px;margin-bottom:-1px;border:1px solid #d8eaf9;zoom:1;border-top-color:#89beeb}
+</style>
+</head>
+
+<body class="" onload="">
+
+<br><br><br><br>
+
+$newsBox
+
+
+</body>
+
+</html>

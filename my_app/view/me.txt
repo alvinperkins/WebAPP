@@ -1,0 +1,52 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<body>
+
+
+<h1>以下是我技术方面的一些积累</h1>
+<a href=http://notebook.asfound.cn target="_blank" >python numpy 及机器学习方面的笔记本</a>
+
+(密码visit访问)<br>包括各种机器学习算法原理及示例代码，<br>
+python 基础　numpy pandas数据处理相关内容
+，<br>
+对社交网站twitter数据挖掘的笔记,一些tensorflow 代码。
+<br>
+<br>
+<a href=http://zeppelin.asfound.cn target="_blank">spark core, sql, streaming及机器学习的代码</a>
+（用户名visit 密码visit 登录查看)<br>
+一个在线运行，展示spark 交互式数据挖掘的框架,　我在上面保存了spark　方方面面的应用
+<br>spark <a href= http://zeppelin.asfound.cn/#/notebook/2CUBRR351 target="_blank"> core</a>基本算子的几十个代码片段
+<br>
+<br>
+<a href=http://spark.asfound.cn target="_blank"> 部署在本人云服务器上的spark 应用的ui界面</a>
+<br>可以看到各个已执行的spark job及job 各个stage 和 dag图，
+<br>可以查看集群的运行状况并管理
+<br>
+<br>
+<a href=http://asfound.cn/o/code/spark2 target="_blank">我开发的在线浏览　源代码的web 应用</a>
+<br>包含全部apache spark源码及hadoop 编程模式代码，约数千个源文件
+
+<a href=http://asfound.cn/o/code/spark2/core/scala/spark/SparkConf.scala target="_blank">示例页面</a>
+可以根据类名查询源文件
+<br>
+<br>
+其他<br>
+<a href= http://asfound.cn/o/imagenet/ target="_blank">图像分类</a>
+输入图像链接即可对图像内容作出猜测，后台使用了相关的神经网络模型。
+
+<h1>我正在求职</h1>
+
+
+
+熟练使用Java,Scala,Python语言。<br>
+理解Hadoop技术框架及编程模式，熟悉HDFS，MapReduce, Hbase，hive，Spark，kafka,storm等多种组件<br>
+熟悉Hadoop、Spark，具有Spark应用开发调试经验及项目经验，性能调优，troubleshoting及源码。<br>
+熟悉SQL，善于清洗及处理数据。<br>
+熟练掌握Linux命令操作和Python web开发框架及多种前后端框架。<br>
+熟悉基础数据挖掘模型，如回归、决策树、SVM、神经网络等算法。<br>
+具有良好沟通能力、学习思考能力和团队协作能力，责任心强，积极主动，工作细致认真，有耐心。<br>
+<br><br><br><br><br><br>
+
+</body>
+</html>

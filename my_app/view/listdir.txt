@@ -1,0 +1,13 @@
+$def with(l)
+
+
+$def tr(v):
+    <a href=$v[0]> $v[1]</a><br> 
+
+$def listd(l):
+    $for v in l:
+        $tr(v)
+
+<hr>
+$listd(l)
+<hr>

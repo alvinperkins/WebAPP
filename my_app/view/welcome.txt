@@ -1,0 +1,29 @@
+$def with(quote, newsBox)
+
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+
+<script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+<style type="text/css">
+.newsCaption{height:29px;padding:0 10px;background:#f0f6fb;font:bold 14px/29px arial, sans-serif; position: relative;}
+.newsBox{width:980px;margin-bottom:-1px;border:1px solid #d8eaf9;zoom:1;border-top-color:#89beeb}
+</style>
+</head>
+
+<body class="" onload="">
+
+
+<p>
+$quote
+</p>
+
+$newsBox
+<hr>
+<a href=/>sitemap &gt;</a>
+
+</body>
+
+</html>
